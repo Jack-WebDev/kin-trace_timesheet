@@ -1,0 +1,104 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+    provider = "prisma-client-js"
+    binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+model User {
+    id            String     @id @default(uuid())
+    name          String
+    email         String     @unique
+    surname       String
+    password      String
+    role          UserRole   @default(Agent)
+    gender        Gender  @default(Unspecified)
+    status        UserStatus @default(Active)
+    createdAt     DateTime   @default(now())
+    updatedAt     DateTime   @updatedAt
+    phoneVerified Boolean?    @default(false)
+    emailVerified Boolean?    @default(false)
+    contactNumber String     @unique
+    image         String?
+    notifications   Notification[]
+}
+
+
+
+
+model Notification {
+    id          String     @id @default(uuid())
+    caseId  String?
+    taskId      String?
+    recepientId  String
+    category  NotificationCategory
+    message  String
+    status  NotificationStatus @default(New)
+    createdAt   DateTime   @default(now())
+
+    recepient User @relation(fields: [recepientId], references: [id])
+}
+
+
+
+enum NotificationCategory {
+    Case
+    Task
+}
+
+
+
+enum NotificationStatus {
+    New
+    Opened
+}
+
+enum NoteStatus {
+    Creted
+    Opened
+}
+
+enum TaskStatus {
+    Open
+    Closed
+}
+
+enum CaseStatus {
+    Open
+    Closed
+    Submitted
+}
+
+enum AddressType {
+    Postal
+    Physical
+}
+
+enum TraceStatus {
+    Untraced
+    Found
+    NotFound
+}
+
+enum UserRole {
+    Admin
+    Agent
+    Supervisor
+}
+
+enum UserStatus {
+    Active
+    Inactive
+}
+
+enum Gender {
+    Male
+    Female
+    Unspecified
+}
