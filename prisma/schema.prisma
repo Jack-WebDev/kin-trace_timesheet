@@ -9,6 +9,7 @@ datasource db {
 
 model User {
     id             String         @id @default(cuid())
+    title          UserTitle      @default(Mr)
     name           String
     email          String         @unique
     surname        String
@@ -20,6 +21,7 @@ model User {
     gender         Gender         @default(Non_Binary)
     position       String
     employeeType   EmployeeType   @default(Contract)
+    maritalStatus  MaritalStatus  @default(Single)
     address        String
     city           String
     departmentId   String
@@ -75,6 +77,19 @@ model Notification {
     status      NotificationStatus   @default(New)
     createdAt   DateTime             @default(now())
     recepient   User                 @relation(fields: [recepientId], references: [id])
+}
+
+enum MaritalStatus {
+    Single
+    Married
+    Widowed
+}
+
+enum UserTitle {
+    Mr
+    Mrs
+    Ms
+    Dr
 }
 
 enum Ethnicity {
