@@ -23,10 +23,7 @@ export const User = (props: UserProps) => {
       (image ? (
         <div className="flex items-center w-full gap-4 ">
           <Avatar>
-            <AvatarImage
-              src={user?.image ? user?.image : ""}
-              className="object-cover"
-            />
+
             <AvatarFallback className="font-normal text-black dark:text-gray-400 p-4 bg-gray-200 dark:bg-[#252729]">
               {avatarFallBack || "U"}
             </AvatarFallback>

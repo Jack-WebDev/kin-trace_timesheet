@@ -1,9 +1,5 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
     provider = "prisma-client-js"
-    binaryTargets = ["native", "debian-openssl-3.0.x"]
 }
 
 datasource db {
@@ -12,84 +8,104 @@ datasource db {
 }
 
 model User {
-    id            String     @id @default(uuid())
-    name          String
-    email         String     @unique
-    surname       String
-    password      String
-    role          UserRole   @default(Agent)
-    gender        Gender  @default(Unspecified)
-    status        UserStatus @default(Active)
-    createdAt     DateTime   @default(now())
-    updatedAt     DateTime   @updatedAt
-    phoneVerified Boolean?    @default(false)
-    emailVerified Boolean?    @default(false)
-    contactNumber String     @unique
-    image         String?
-    notifications   Notification[]
+    id             String         @id @default(cuid())
+    name           String
+    email          String         @unique
+    surname        String
+    idNumber       String         @unique
+    dob            String
+    contactNumber  String         @unique
+    password       String
+    ndtEmail       String         @unique
+    gender         Gender         @default(Non_Binary)
+    position       String
+    employeeType   EmployeeType   @default(Contract)
+    address        String
+    city           String
+    departmentId   String
+    department     Department     @relation(fields: [departmentId], references: [id])
+    province       String
+    postalCode     String
+    ethnicity      Ethnicity      @default(Black)
+    role           UserRole       @default(Employee)
+    startDate      DateTime
+    officeLocation String
+    status         UserStatus     @default(Active)
+    createdAt      DateTime       @default(now())
+    updatedAt      DateTime       @updatedAt
+    notifications  Notification[]
+    OTP            OTP[]
 }
 
+model Department {
+    id      String    @id @default(cuid())
+    name    String
+    Project Project[]
+    User    User[]
+}
 
+model Project {
+    id           String     @id @default(cuid())
+    name         String
+    client       String
+    department   Department @relation(fields: [departmentId], references: [id])
+    departmentId String
+    description  String
+    manager      String
+    projectTeam  String[]
+    createdAt    DateTime   @default(now())
+}
 
+model OTP {
+    id         String   @id @default(uuid())
+    userId     String
+    code       String
+    createdAt  DateTime @default(now())
+    expiryDate DateTime
+    user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
 
 model Notification {
-    id          String     @id @default(uuid())
-    caseId  String?
+    id          String               @id @default(cuid())
+    caseId      String?
     taskId      String?
-    recepientId  String
-    category  NotificationCategory
-    message  String
-    status  NotificationStatus @default(New)
-    createdAt   DateTime   @default(now())
-
-    recepient User @relation(fields: [recepientId], references: [id])
+    recepientId String
+    category    NotificationCategory
+    message     String
+    status      NotificationStatus   @default(New)
+    createdAt   DateTime             @default(now())
+    recepient   User                 @relation(fields: [recepientId], references: [id])
 }
 
+enum Ethnicity {
+    Black
+    White
+    Coloured
+    Indian
+    Asian
+}
 
+enum EmployeeType {
+    Contract
+    Full_Time
+    Part_Time
+    Intern
+}
 
 enum NotificationCategory {
     Case
     Task
 }
 
-
-
 enum NotificationStatus {
     New
     Opened
 }
 
-enum NoteStatus {
-    Creted
-    Opened
-}
-
-enum TaskStatus {
-    Open
-    Closed
-}
-
-enum CaseStatus {
-    Open
-    Closed
-    Submitted
-}
-
-enum AddressType {
-    Postal
-    Physical
-}
-
-enum TraceStatus {
-    Untraced
-    Found
-    NotFound
-}
-
 enum UserRole {
     Admin
-    Agent
-    Supervisor
+    Employee
+    Manager
 }
 
 enum UserStatus {
@@ -100,5 +116,5 @@ enum UserStatus {
 enum Gender {
     Male
     Female
-    Unspecified
+    Non_Binary
 }
