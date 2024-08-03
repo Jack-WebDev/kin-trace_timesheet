@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 :root {
-  --primary: hsl(40, 71%, 55%);
-  --secondary: hsl(169, 98%, 18%);
+  --primary: #dda83a;
+  --secondary: #015a4a;
 }
 
 /* @layer base {
