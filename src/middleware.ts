@@ -5,6 +5,7 @@ import { getAuth } from "@/context";
 export async function middleware(request: NextRequest) {
   const auth = await getAuth();
 
+
   const { pathname } = request.nextUrl;
 
   if (pathname.startsWith("/dashboard")) {

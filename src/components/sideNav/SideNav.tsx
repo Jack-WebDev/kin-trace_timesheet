@@ -17,7 +17,7 @@ export const SideNav = async () => {
 
   return (
     <div
-      className={`h-screen  flex flex-col items-start gap-10 w-16 md:w-72 rounded-r-[20px] dark:rounded-br-[20px] dark:rounded-tr-none pb-2 bg-sideBarBg shadow-lg border-r-gray-200 text-white sticky top-0`}
+      className={`h-screen  flex flex-col items-start gap-10 w-16 md:w-72  pb-2 bg-[#015a4a] shadow-lg border-r-gray-200 text-white sticky top-0`}
     >
       <Logo sideNav={true} />
       <MenuList auth={auth} />
