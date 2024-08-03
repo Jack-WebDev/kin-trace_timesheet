@@ -6,27 +6,28 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, Button, Loader, ResponseMessage, useToast } from "@/packages/ui";
 import { z } from "zod";
 import { FormInput } from "@/packages/ui";
-import Link from "next/link";
 import { clientApi } from "@/client/react";
+import Image from "next/image";
 
-const loginSchema = z.object({
-  email: z.string().email(),
-  password: z.string(),
+const forgotPasswordSchema = z.object({
+  email: z.string().email().refine((email) => email.endsWith("@ndt.co.za"), {
+    message: "Email must be a valid NDT email",
+  }),   
 });
 
-type LoginSchemaType = z.infer<typeof loginSchema>;
+type forgotPasswordSchemaType = z.infer<typeof forgotPasswordSchema>;
 
-export function LoginForm() {
+export function ForgotPasswordForm() {
   const [successMessage, setSuccessMessage] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
   const { toast } = useToast();
 
-  const form = useForm<LoginSchemaType>({
-    resolver: zodResolver(loginSchema),
+  const form = useForm<forgotPasswordSchemaType>({
+    resolver: zodResolver(forgotPasswordSchema),
     defaultValues: {},
   });
 
-  const loginMutation = clientApi.auth.login.useMutation({
+  const forgotPasswordMutation = clientApi.auth.forgotPassword.useMutation({
     onSuccess: (data) => {
       setSuccessMessage(data.message);
       location.reload();
@@ -41,11 +42,11 @@ export function LoginForm() {
     },
   });
 
-  async function onSubmit(values: LoginSchemaType) {
+  async function onSubmit(values: forgotPasswordSchemaType) {
     setSuccessMessage("");
     setErrorMessage("");
 
-    loginMutation.mutate(values);
+    forgotPasswordMutation.mutate(values);
   }
 
   return (
@@ -54,28 +55,30 @@ export function LoginForm() {
         onSubmit={form.handleSubmit(onSubmit)}
         className=" flex w-full flex-col gap-6  px-0 text-gray-500"
       >
+                  <Image src={"/7070628_3275432.svg"} alt="" width={400} height={400} />
+          <div className="flex flex-col justify-center items-start gap-y-4">
+            <>
+              <h1 className="text-5xl font-semibold text-secondary">
+                Forgot Password?
+              </h1>
+              <p className="text-md text-gray-500">
+                Enter your NDT email address and we&apos;ll send you an OTP to
+                reset your password.
+              </p>
+            </>
+          </div>
         <FormInput
           placeholder="example@mail.com"
           label="Email"
           name="email"
           fullWidth={true}
         />
-        <FormInput
-          placeholder="*******"
-          label="Password"
-          name="password"
-          fullWidth={true}
-          type="password"
-        />
-        <Link href={"/forgot-password"} className="relative top-[5px] left-[5.5rem] md:left-[11rem] text-[#dda83a] font-semibold text-sm w-fit">Forgot Password?</Link>
-
-
-        {loginMutation.isPending? (
+        {forgotPasswordMutation.isPending? (
           <Loader />
         ) : (
-          <Button type="submit" className="login_btn w-full hover:bg-[#dda83a]">
-          Let Me In
-        </Button>
+          <Button type="submit" className="w-full hover:bg-[#dda83a]">
+              Send Reset Password Email
+              </Button>
         )}
         <ResponseMessage
           errorMessage={errorMessage}

@@ -1,38 +1,71 @@
-"use client";
-import type { AuthUserType } from "@/schema";
 import { NavLink } from "./NavLink";
 
 import {
-  ClipboardList,
-  HandPlatter,
-  Handshake,
-  ListChecks,
+  Bookmark,
+  Building,
+  CalendarCheck,
+  Check,
+  Clock,
+  Info,
+  LayoutDashboard,
+  LineChart,
   Notebook,
+  Settings,
   Users,
 } from "lucide-react";
 
-const MenuList = (props: MenuListProps) => {
-  const { auth } = props;
+const MenuList = (props: any) => {
+  const { userProfile } = props;
+
+
   return (
-    <div className="flex flex-col items-center md:items-start px-0 md:px-6  gap-2 w-full overflow-y-auto scrollbar-hide ">
-      {auth.role === "Admin" && (
-        <NavLink url="/dashboard/users" title="Users" Icon={Users} />
-      )}
-      <NavLink url="/dashboard/clients" title="Clients" Icon={Handshake} />
-      <NavLink
-        url="/dashboard/beneficiaries"
-        title="Beneficiaries"
-        Icon={HandPlatter}
-      />
-      <NavLink url="/dashboard/cases" title="Cases" Icon={ClipboardList} />
-      <NavLink url="/dashboard/tasks" title="Tasks" Icon={ListChecks} />
-      <NavLink url="/dashboard/notes" title="Notes" Icon={Notebook} />
+    <div className="scrollbar-hide flex w-full flex-col items-center gap-2  overflow-y-auto px-0 md:items-start md:px-6 ">
+      <NavLink url="/dashboard" title="Dashboard" Icon={LayoutDashboard} />
+
+      {userProfile?.role === "Admin" ? (
+        <NavLink url="/dashboard/employees" title="Employees" Icon={Users} />
+      ) : null}
+      {userProfile?.role === "Admin" ? (
+        <NavLink
+          url="/dashboard/departments"
+          title="Departments"
+          Icon={Building}
+        />
+      ) : null}
+      {userProfile?.role === "Admin" ? (
+        <NavLink url="/dashboard/projects" title="Projects" Icon={Notebook} />
+      ) : null}
+
+      {userProfile?.role === "Manager" ? (
+        <NavLink url="/dashboard/projects" title="Projects" Icon={Notebook} />
+      ) : null}
+
+      {userProfile?.role === "Manager" ? (
+        <NavLink url="/dashboard/timesheets" title="Timesheets" Icon={Clock} />
+      ) : null}
+
+      {userProfile?.role === "Manager" ? (
+        <NavLink url="/dashboard/reports" title="Reports" Icon={LineChart} />
+      ) : null}
+
+      {userProfile?.role === "Employee" ? (
+        <NavLink url="/dashboard/helpdesk" title="Help Desk" Icon={Info} />
+      ) : null}
+      {userProfile?.role === "Employee" ? (
+        <NavLink url="/dashboard/approvals" title="Approvals" Icon={Check} />
+      ) : null}
+      {userProfile?.role === "Employee" ? (
+        <NavLink url="/dashboard/leaves" title="Leaves" Icon={CalendarCheck} />
+      ) : null}
+      {userProfile?.role === "Employee" ? (
+        <NavLink url="/dashboard/timesheets" title="Timesheets" Icon={Clock} />
+      ) : null}
+
+      <NavLink url="/dashboard/bookings" title="Bookings" Icon={Bookmark} />
+
+      <NavLink url="/dashboard/settings" title="Settings" Icon={Settings} />
     </div>
   );
 };
 
 export default MenuList;
-
-type MenuListProps = {
-  auth: AuthUserType;
-};

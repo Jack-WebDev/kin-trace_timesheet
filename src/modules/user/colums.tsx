@@ -27,10 +27,7 @@ export const userColumns: ColumnDef<UserType>[] = [
       return (
         <div className="flex w-full items-center gap-4">
           <Avatar>
-            <AvatarImage
-              src={user?.image ? user?.image : ""}
-              className="object-cover"
-            />
+
             <AvatarFallback className="bg-gray-200 p-4 font-normal text-black dark:bg-[#252729] dark:text-gray-400">
               {avatarFallBack || "U"}
             </AvatarFallback>
