@@ -1,28 +1,50 @@
+"use client";
+
 import React from "react";
 import { Logo } from "..";
 import { Profile } from "./Profile";
 import MenuList from "./menuList";
-import type { AuthUserType } from "@/schema";
-import { UserRole, UserStatus } from "@prisma/client";
 
+import { useUiStateContext } from "@/context";
+import { clientApi } from "@/client/react";
+import Image from "next/image";
 
-export const SideNav = async () => {
-  const auth: AuthUserType = {
-    accessToken: "",
-    id: "",
-    role: UserRole.Admin,
-    status: UserStatus.Active,
-  };
-  
+export const SideNav = () => {
+  const { data: userProfile } = clientApi.user.me.useQuery();
 
+  const { menu } = useUiStateContext();
+  const width = menu === "open" ? "17rem" : "5rem";
   return (
     <div
-      className={`h-screen  flex flex-col items-start gap-10 w-16 md:w-72 rounded-r-[20px] dark:rounded-br-[20px] dark:rounded-tr-none pb-2 bg-sideBarBg shadow-lg border-r-gray-200 text-white sticky top-0`}
+      className={`sticky  top-0 flex h-screen w-16 flex-col items-center gap-10 border-r-gray-200 bg-[#015a4a] py-4 pb-2 text-white shadow-lg md:w-72`}
+      style={{ width }}
     >
-      <Logo sideNav={true} />
-      <MenuList auth={auth} />
+      {menu === "open" ? (
+        <div className="grid place-items-center gap-y-2">
+          <Image
+            src={"/ndt-technologies-web-logo.svg"}
+            alt=""
+            width={100}
+            height={100}
+          />
+          <h1 className="flex items-center text-xl font-bold">
+            NEW DAWN
+            <span className="pl-2 text-[#dda83a]">360</span>
+          </h1>
+        </div>
+      ) : (
+        <Image
+          src={"/ndt-technologies-web-logo.svg"}
+          alt=""
+          width={50}
+          height={50}
+        />
+      )}
 
-      <div className="absolute bottom-10 w-full md:px-8 left-0 right-0 mx-auto flex items-center justify-center">
+      {/* <Logo sideNav={true} /> */}
+      <MenuList userProfile={userProfile} />
+
+      <div className="absolute bottom-10 left-0 right-0 mx-auto flex w-full items-center justify-center md:px-8">
         <Profile />
       </div>
     </div>

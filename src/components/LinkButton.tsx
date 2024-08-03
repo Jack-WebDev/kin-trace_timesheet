@@ -37,7 +37,7 @@ export const LinkIconButton = (props: LinkIconButtonProps) => {
   return link ? (
     <Link
       href={url!}
-      className="w-full flex items-center justify-between hover:bg-secondary text-textColorLight hover:text-white gap-2 py-3 px-4"
+      className="w-full flex items-center justify-between hover:bg-[#015a4a] text-textColorLight hover:text-white gap-2 py-3 px-4"
       style={{ textDecoration: "none" }}
     >
       <div className="flex items-center gap-2 w-fit">
