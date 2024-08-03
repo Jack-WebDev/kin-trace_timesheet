@@ -16,7 +16,10 @@ export const UiContextProvider = ({
   const [menu, setMenu] = useState<string>("open");
 
   useEffect(() => {
-    setMenu(localStorage.getItem("menu")!);
+    const storedMenu = localStorage.getItem("menu");
+    if (storedMenu) {
+      setMenu(storedMenu);
+    }
   }, []);
 
   useEffect(() => {
@@ -25,8 +28,8 @@ export const UiContextProvider = ({
 
   const toggleMenu = () => {
     setMenu((prev) => (prev === "open" ? "closed" : "open"));
-    localStorage.setItem("menu", menu);
   };
+
   return (
     <StateContext.Provider
       value={{
@@ -39,4 +42,10 @@ export const UiContextProvider = ({
   );
 };
 
-export const useUiStateContext = () => useContext(StateContext);
+export const useUiStateContext = () => {
+  const context = useContext(StateContext);
+  if (context === undefined) {
+    throw new Error("useUiStateContext must be used within a UiContextProvider");
+  }
+  return context;
+};

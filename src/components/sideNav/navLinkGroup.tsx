@@ -20,11 +20,13 @@ export type LinkType = {
   title: string;
   Icon: React.ElementType;
   id: string;
+  meunOpen: string;
 };
 
 export const NavLinkGroup = (props: NavLinkGroupProps) => {
-  const { menu } = useUiStateContext()!;
   const { title, TitleIcon, links } = props;
+  const { menu } = useUiStateContext();
+
 
   const displayClass = menu === "open" ? "flex" : "hidden";
 

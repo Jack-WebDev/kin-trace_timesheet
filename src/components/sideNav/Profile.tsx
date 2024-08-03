@@ -13,9 +13,12 @@ import {
 } from "@/packages/ui";
 import { LinkIconButton } from "../LinkButton";
 import { clientApi } from "@/client/react";
+import { useUiStateContext } from "@/context";
 
 export const Profile = () => {
   const { data: userProfile, isLoading, error } = clientApi.user.me.useQuery();
+  const { menu } = useUiStateContext();
+
 
   if (error) {
     return null;
@@ -31,14 +34,14 @@ export const Profile = () => {
     userProfile && (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <div className="flex w-full cursor-pointer items-center  gap-3 rounded-xl bg-[#ffffff48] p-4 px-3 shadow-lg">
-            <div className="flex flex-col items-center gap-x-4 gap-y-2 md:flex-row ">
+          <div className={`${menu === "closed" ? "w-fit" : "w-full"} flex cursor-pointer items-center  gap-3 rounded-xl bg-[#ffffff48] p-4 px-3 shadow-lg`}>
+            <div className={` flex flex-col items-center gap-x-4 gap-y-2 md:flex-row `}>
               <Avatar>
                 <AvatarFallback className="bg-gray-200 p-4 text-black dark:bg-[#252729] dark:text-gray-400">
                   {avatarFallBack ?? "U"}
                 </AvatarFallback>
               </Avatar>
-              <div>
+              <div className={` ${menu === "closed" ? "hidden" : ""}`}>
                 <p className="hidden text-xs font-bold md:flex">
                   {userProfile?.name + " " + userProfile?.surname}
                 </p>
@@ -50,7 +53,7 @@ export const Profile = () => {
           </div>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="mt-1 w-56 rounded-xl border-none bg-white p-0">
-          <DropdownMenuItem className="w-full rounded-t-xl p-0 hover:bg-[#015a4a]">
+          <DropdownMenuItem className="w-full rounded-t-xl p-0 hover:bg-[#015a4a] ">
             <LinkIconButton
               title="Profile"
               link={true}
@@ -58,7 +61,7 @@ export const Profile = () => {
               Icon={CircleUser}
             />
           </DropdownMenuItem>
-          <DropdownMenuItem className="w-full rounded-b-xl p-0 hover:bg-[#015a4a]">
+          <DropdownMenuItem className="w-full rounded-b-xl p-0 hover:bg-[#015a4a] ">
             <LinkIconButton
               title="Logout"
               link={true}

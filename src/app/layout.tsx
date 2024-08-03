@@ -6,7 +6,7 @@ import { ThemeContext } from "@/context/ThemeContext";
 
 import { Toaster } from "@/packages/ui";
 import { TRPCReactProvider } from "@/client/react";
-import { getAuth, type AuthUserType } from "@/context";
+import { getAuth, UiContextProvider, type AuthUserType } from "@/context";
 import { Metadata } from "next";
 
 const poppins = Poppins({
@@ -52,23 +52,25 @@ async function Content({ children }: any) {
   const auth = await getAuth();
 
   if (!auth) {
-    return <TRPCReactProvider>{children}</TRPCReactProvider>;
+    return <TRPCReactProvider><UiContextProvider>{children}</UiContextProvider></TRPCReactProvider>;
   }
 
   return (
     <TRPCReactProvider>
-      <div className="absolute left-0 top-0  flex h-screen w-screen overflow-hidden bg-secondaryBg">
-        <SideNav />
+      <UiContextProvider>
+        <div className="absolute left-0 top-0  flex h-screen w-screen overflow-hidden bg-secondaryBg">
+          <SideNav />
 
-        <div className=" flex h-full min-w-0 flex-1 flex-col bg-transparent  ">
-          <TopNav />
-          <Toaster />
-          <div className="flex h-full min-w-full flex-col justify-between gap-8 overflow-y-auto bg-secondaryBg px-4 py-8 pb-0 md:px-8 ">
-            {children}
-            <Footer title="KinTrace" year={2024} name="NDT Digitech" />
+          <div className=" flex h-full min-w-0 flex-1 flex-col bg-transparent  ">
+            <TopNav />
+            <Toaster />
+            <div className="flex h-full min-w-full flex-col justify-between gap-8 overflow-y-auto bg-secondaryBg px-4 py-8 pb-0 md:px-8 ">
+              {children}
+              <Footer title="KinTrace" year={2024} name="NDT Digitech" />
+            </div>
           </div>
         </div>
-      </div>
+      </UiContextProvider>
     </TRPCReactProvider>
   );
 }

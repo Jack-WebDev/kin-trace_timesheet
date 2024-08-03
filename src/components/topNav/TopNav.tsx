@@ -17,12 +17,15 @@ import {
 import { LinkIconButton } from "../LinkButton";
 import type { NotificationType } from "@/schema";
 import { clientApi } from "@/client/react";
+import { UiContextType, useUiStateContext } from "@/context";
 
 export function TopNav() {
   const pathname = usePathname();
   const pathSegments = pathname.split("/");
   const location = pathSegments[2] ?? pathSegments[1];
   const [notifications, setNotifications] = useState<NotificationType[]>([]);
+  const {toggleMenu} = useUiStateContext()
+
 
   const { data: userProfile, isLoading, error } = clientApi.user.me.useQuery();
 
@@ -33,7 +36,7 @@ export function TopNav() {
   return (
     <div className="sticky top-0 z-50 flex h-24 w-full items-center justify-between border-b bg-white px-2 py-8 shadow-sm dark:border-none dark:bg-sideBarBg md:px-6">
       <div className="flex items-center gap-4">
-        <AlignLeft size={40} className="cursor-pointer text-gray-500" />
+        <AlignLeft size={40} className="cursor-pointer text-gray-500" onClick={toggleMenu} />
         <PageHeader title={location ?? ""} header={true} />
       </div>
       <div className="flex items-center gap-4">

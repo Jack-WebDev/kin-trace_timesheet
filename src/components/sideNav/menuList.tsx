@@ -1,4 +1,3 @@
-"use client";
 import { NavLink } from "./NavLink";
 
 import {
@@ -14,10 +13,10 @@ import {
   Settings,
   Users,
 } from "lucide-react";
-import { clientApi } from "@/client/react";
 
-const MenuList = () => {
-  const { data: userProfile } = clientApi.user.me.useQuery();
+const MenuList = (props: any) => {
+  const { userProfile } = props;
+
 
   return (
     <div className="scrollbar-hide flex w-full flex-col items-center gap-2  overflow-y-auto px-0 md:items-start md:px-6 ">
