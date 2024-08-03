@@ -27,20 +27,20 @@ export function CreateForm() {
     defaultValues: {},
   });
 
-  const createUser = clientApi['user']['create'].useMutation({
-    onSuccess: (data) => {
-      setSuccessMessage(data.message);
-      location.reload();
-    },
-    onError: (error) => {
-      setErrorMessage(error.message);
-      toast({
-        variant: "error",
-        title: "Error!",
-        description: error.message || "Unknown error",
-      });
-    },
-  });
+  // const createUser = clientApi['user']['create'].useMutation({
+  //   onSuccess: (data) => {
+  //     setSuccessMessage(data.message);
+  //     location.reload();
+  //   },
+  //   onError: (error) => {
+  //     setErrorMessage(error.message);
+  //     toast({
+  //       variant: "error",
+  //       title: "Error!",
+  //       description: error.message || "Unknown error",
+  //     });
+  //   },
+  // });
 
   async function onSubmit(values: CreateUserSchemaType) {
     setSuccessMessage("");
@@ -48,7 +48,7 @@ export function CreateForm() {
 
     console.log(values)
 
-    createUser.mutate(values);
+    // createUser.mutate(values);
   }
   clientApi.user['create'].useMutation({})
 
@@ -83,13 +83,13 @@ export function CreateForm() {
           placeholder="Select role"
         />
 
-        {createUser.isPending ? (
+        {/* {createUser.isPending ? (
           <Loader />
         ) : (
           <Button variant="primary" type="submit">
             Submit
           </Button>
-        )}
+        )} */}
         <ResponseMessage
           errorMessage={errorMessage}
           successMessage={successMessage}
