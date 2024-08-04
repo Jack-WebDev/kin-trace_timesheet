@@ -7,8 +7,8 @@ export const Footer = (props: FooterProps) => {
     <div className="bg-sideBarBgDark p-8 w-full flex items-cente justify-center rounded-tl-lg rounded-tr-lg ">
       <span className="text-textColorLight text-sm">
         Copyright &copy; {year}{" "}
-        <span className="font-semibold text-white">{title}.</span>{" "}
-        <span className=" mx-1">Developed by {name}</span>
+        <span className="font-semibold text-[#dda83a]">{title}.</span>{" "}
+        <span className=" mx-1 text-[#016e4a] text-bold">Developed by {name}</span>
       </span>
     </div>
   );
