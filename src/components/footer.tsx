@@ -8,7 +8,7 @@ export const Footer = (props: FooterProps) => {
       <span className="text-textColorLight text-sm">
         Copyright &copy; {year}{" "}
         <span className="font-semibold text-[#dda83a]">{title}.</span>{" "}
-        <span className=" mx-1 text-[#016e4a] text-bold">Developed by {name}</span>
+        <span className=" mx-1 text-[#016e4a] font-semibold">Developed by {name}</span>
       </span>
     </div>
   );

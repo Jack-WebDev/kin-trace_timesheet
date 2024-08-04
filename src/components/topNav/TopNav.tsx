@@ -37,12 +37,12 @@ export function TopNav() {
     <div className="sticky top-0 z-50 flex h-24 w-full items-center justify-between bg-[#dda73a17] px-2 py-8 md:px-6">
       <div className="flex items-center gap-4">
         <AlignLeft size={40} className="cursor-pointer text-gray-500" onClick={toggleMenu} />
-        <PageHeader title={location ?? ""} header={true} />
+        {/* <PageHeader title={location ?? ""} header={true} /> */}
       </div>
       <div className="flex items-center gap-4">
         {/* <ThemeToggle /> */}
         {isLoading ? (
-          <Loader size="xs" className="h-10 w-10 min-w-0 border-primary" />
+          <Loader size="xs" className="h-10 w-10 min-w-0 border-[#dda83a]" />
         ) : (
           <div className="max-w-[100px]">
             <DropdownMenu>
