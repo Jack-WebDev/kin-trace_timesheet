@@ -20,45 +20,45 @@ const MenuList = (props: any) => {
 
   return (
     <div className="scrollbar-hide flex w-full flex-col items-center gap-2  overflow-y-auto px-0 md:items-start md:px-6 ">
-      <NavLink url="/dashboard" title="Dashboard" Icon={LayoutDashboard} />
+      <NavLink url="/" title="Dashboard" Icon={LayoutDashboard} />
 
       {userProfile?.role === "Admin" ? (
-        <NavLink url="/dashboard/employees" title="Employees" Icon={Users} />
+        <NavLink url="/admin/employees" title="Employees" Icon={Users} />
       ) : null}
       {userProfile?.role === "Admin" ? (
         <NavLink
-          url="/dashboard/departments"
+          url="/admin/departments"
           title="Departments"
           Icon={Building}
         />
       ) : null}
       {userProfile?.role === "Admin" ? (
-        <NavLink url="/dashboard/projects" title="Projects" Icon={Notebook} />
+        <NavLink url="/admin/projects" title="Projects" Icon={Notebook} />
       ) : null}
 
       {userProfile?.role === "Manager" ? (
-        <NavLink url="/dashboard/projects" title="Projects" Icon={Notebook} />
+        <NavLink url="/manager/projects" title="Projects" Icon={Notebook} />
       ) : null}
 
       {userProfile?.role === "Manager" ? (
-        <NavLink url="/dashboard/timesheets" title="Timesheets" Icon={Clock} />
+        <NavLink url="/manager/timesheets" title="Timesheets" Icon={Clock} />
       ) : null}
 
       {userProfile?.role === "Manager" ? (
-        <NavLink url="/dashboard/reports" title="Reports" Icon={LineChart} />
+        <NavLink url="/manager/reports" title="Reports" Icon={LineChart} />
       ) : null}
 
       {userProfile?.role === "Employee" ? (
-        <NavLink url="/dashboard/helpdesk" title="Help Desk" Icon={Info} />
+        <NavLink url="/employee/helpdesk" title="Help Desk" Icon={Info} />
       ) : null}
       {userProfile?.role === "Employee" ? (
-        <NavLink url="/dashboard/approvals" title="Approvals" Icon={Check} />
+        <NavLink url="/employee/approvals" title="Approvals" Icon={Check} />
       ) : null}
       {userProfile?.role === "Employee" ? (
-        <NavLink url="/dashboard/leaves" title="Leaves" Icon={CalendarCheck} />
+        <NavLink url="/employee/leaves" title="Leaves" Icon={CalendarCheck} />
       ) : null}
       {userProfile?.role === "Employee" ? (
-        <NavLink url="/dashboard/timesheets" title="Timesheets" Icon={Clock} />
+        <NavLink url="/employee/timesheets" title="Timesheets" Icon={Clock} />
       ) : null}
 
       <NavLink url="/dashboard/bookings" title="Bookings" Icon={Bookmark} />

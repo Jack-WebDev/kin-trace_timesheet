@@ -64,9 +64,9 @@ async function Content({ children }: any) {
           <div className=" flex h-full min-w-0 flex-1 flex-col bg-transparent  ">
             <TopNav />
             <Toaster />
-            <div className="flex h-full min-w-full flex-col justify-between gap-8 overflow-y-auto bg-secondaryBg px-4 py-8 pb-0 md:px-8 ">
+            <div className="flex h-full min-w-full flex-col justify-between gap-8 overflow-y-auto px-4 py-8 pb-0 md:px-8 bg-[#dda73a17]">
               {children}
-              <Footer title="KinTrace" year={2024} name="NDT Digitech" />
+              <Footer title="NewDawn360" year={2024} name="NDT Digitech" />
             </div>
           </div>
         </div>

@@ -34,13 +34,13 @@ export function TopNav() {
   }
 
   return (
-    <div className="sticky top-0 z-50 flex h-24 w-full items-center justify-between border-b bg-white px-2 py-8 shadow-sm dark:border-none dark:bg-sideBarBg md:px-6">
+    <div className="sticky top-0 z-50 flex h-24 w-full items-center justify-between bg-[#dda73a17] px-2 py-8 md:px-6">
       <div className="flex items-center gap-4">
         <AlignLeft size={40} className="cursor-pointer text-gray-500" onClick={toggleMenu} />
         <PageHeader title={location ?? ""} header={true} />
       </div>
       <div className="flex items-center gap-4">
-        <ThemeToggle />
+        {/* <ThemeToggle /> */}
         {isLoading ? (
           <Loader size="xs" className="h-10 w-10 min-w-0 border-primary" />
         ) : (
