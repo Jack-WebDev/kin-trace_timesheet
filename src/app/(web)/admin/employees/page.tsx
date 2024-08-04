@@ -9,6 +9,7 @@ import React from "react";
 const Page = async () => {
   const users = await serverApi.user.list();
 
+
   return (
     <div className="flex w-full flex-col gap-4 p-2">
       <div className="mb-2 flex items-center justify-between">
