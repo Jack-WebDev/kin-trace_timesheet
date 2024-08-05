@@ -7,7 +7,7 @@ import { User2 } from "lucide-react";
 import React from "react";
 
 const Page = async () => {
-  const users = await serverApi.user.list();
+  const users = await serverApi.user.getUsers();
 
 
   return (
