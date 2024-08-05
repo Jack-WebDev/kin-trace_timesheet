@@ -16,7 +16,7 @@ model User {
     idNumber       String         @unique
     dob            String
     contactNumber  String         @unique
-    password       String
+    password       String         @default("")
     ndtEmail       String         @unique
     gender         Gender         @default(Non_Binary)
     position       String
