@@ -1,7 +1,7 @@
 import { object, string, z } from "zod";
 
 export const departmentsType = object({
-  id: string().uuid(),
+  id: string().cuid(),
   name: string(),
   _count: z.object({
     User: z.number(),
@@ -13,12 +13,12 @@ export const createDepartmentSchema = object({
 });
 
 export const updateDepartmentSchema = object({
-  id: string().uuid(),
+  id: string().cuid(),
   name: string(),
 });
 
 export const deleteDepartmentSchema = object({
-  id: string().uuid(),
+  id: string().cuid(),
 });
 
 export type DepartmentsType = z.infer<typeof departmentsType>;
