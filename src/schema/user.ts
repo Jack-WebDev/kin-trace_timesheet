@@ -139,8 +139,13 @@ export type UserType = {
   role: UserRole;
   status: UserStatus;
   gender: Gender;
-  phoneVerified: boolean | null;
-  emailVerified: boolean | null;
+  position: string;
+  employmentType: EmployeeType;
+  maritalStatus: MaritalStatus;
+  postalCode: string;
+  province: string;
+  startDate: string;
+  ndtEmail: string;
   contactNumber: string;
   image: string | null;
   createdAt: Date;
