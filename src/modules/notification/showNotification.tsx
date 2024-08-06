@@ -10,34 +10,28 @@ import { clientApi } from "@/client/react";
 import { NotificationStatus } from "@prisma/client";
 import { Notification } from "@prisma/client";
 
-
 export const ShowNotification = (props: ShowNotificationProps) => {
   const [loading, setLoading] = useState<boolean>(false);
   const { notification } = props;
 
-
   const { toast } = useToast();
 
-  const updateNotification = clientApi.notification.update.useMutation()
-
-
+  const updateNotification = clientApi.notification.update.useMutation();
 
   useEffect(() => {
-
     const data = {
       id: notification.id,
-      status: NotificationStatus.Opened
+      status: NotificationStatus.Opened,
     };
 
     updateNotification.mutate(data);
-
-  }, [notification.id,updateNotification]);
+  }, [notification.id, updateNotification]);
 
   return loading ? (
     <Loader />
   ) : (
     <div className="w-full p-4">
-      <div className="flex items-center w-full justify-between mb-3">
+      <div className="mb-3 flex w-full items-center justify-between">
         <NotificationItem
           label="Date"
           value={formatDate(notification.createdAt.toISOString())}
@@ -50,31 +44,35 @@ export const ShowNotification = (props: ShowNotificationProps) => {
       </div>
 
       {notification.recepientId && (
-        <NotificationItem label="Sender" user value={notification.recepientId} />
+        <NotificationItem
+          label="Sender"
+          user
+          value={notification.recepientId}
+        />
       )}
 
       <div className="flex items-center justify-start py-4">
         <NotificationItem label="Message" value={notification.message} />
       </div>
 
-      <div className="flex items-center justify-end gap-2 w-full mt-4">
+      <div className="mt-4 flex w-full items-center justify-end gap-2">
         {notification.caseId && (
           <Link
-            href={`/dashboard/cases/${notification.caseId}`}
-            className="flex items-center text-primary hover:text-white hover:bg-primary gap-2 border border-primary px-2 rounded-md hover:shadow-lg"
+            href={`/home/cases/${notification.caseId}`}
+            className="flex items-center gap-2 rounded-md border border-primary px-2 text-primary hover:bg-primary hover:text-white hover:shadow-lg"
           >
             <Eye size={22} className="text-inherit" />
-            <p className="text-xs text-inherit font-semibold ">View case</p>
+            <p className="text-xs font-semibold text-inherit ">View case</p>
           </Link>
         )}
 
         {notification.taskId && (
           <Link
-            href={`/dashboard/tasks/${notification.taskId}`}
-            className="flex items-center text-primary hover:text-white hover:bg-primary gap-2 border border-primary px-2 rounded-md hover:shadow-lg"
+            href={`/home/tasks/${notification.taskId}`}
+            className="flex items-center gap-2 rounded-md border border-primary px-2 text-primary hover:bg-primary hover:text-white hover:shadow-lg"
           >
             <Eye size={22} className="text-inherit" />
-            <p className="text-xs text-inherit font-semibold">View task</p>
+            <p className="text-xs font-semibold text-inherit">View task</p>
           </Link>
         )}
       </div>
@@ -87,7 +85,7 @@ const NotificationItem = (props: ItemProps) => {
 
   return (
     <div className="flex flex-col gap-1 ">
-      <span className="text-textColorLight text-sm">{label}:</span>
+      <span className="text-sm text-textColorLight">{label}:</span>
       {user ? (
         <User userId={value} />
       ) : badge ? (
@@ -106,7 +104,7 @@ const NotificationItem = (props: ItemProps) => {
           <p className="text-xs">{value}</p>
         </Badge>
       ) : (
-        <span className="text-textColor text-sm max-w-[400px]">{value}</span>
+        <span className="max-w-[400px] text-sm text-textColor">{value}</span>
       )}
     </div>
   );

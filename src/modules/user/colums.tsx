@@ -21,13 +21,11 @@ export const userColumns: ColumnDef<UserType>[] = [
 
     cell: ({ row }) => {
       const user = row.original;
-      const avatarFallBack =
-        user?.name.slice(0, 1) + user?.surname.slice(0, 1);
+      const avatarFallBack = user?.name.slice(0, 1) + user?.surname.slice(0, 1);
 
       return (
         <div className="flex w-full items-center gap-4">
           <Avatar>
-
             <AvatarFallback className="bg-gray-200 p-4 font-normal text-black dark:bg-[#252729] dark:text-gray-400">
               {avatarFallBack || "U"}
             </AvatarFallback>
@@ -97,7 +95,7 @@ export const userColumns: ColumnDef<UserType>[] = [
         <div className="flex w-full items-center justify-center">
           <CrudActions
             id={user.id}
-            url="/dashboard/users"
+            url="/home/users"
             model="user"
             partial
             remove

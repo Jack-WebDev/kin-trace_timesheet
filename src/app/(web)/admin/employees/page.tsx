@@ -1,29 +1,56 @@
-import { serverApi } from "@/client/server";
+import { clientApi } from "@/client/react";
 import { PageHeader } from "@/components";
-import { UserActions } from "@/modules/user";
-import { userColumns } from "@/modules/user/colums";
-import { DataTable } from "@/packages/ui";
-import { User2 } from "lucide-react";
+import { Building, Search } from "lucide-react";
 import React from "react";
+import Link from "next/link";
+import { serverApi } from "@/client/server";
+import { DepartmentsType } from "@/schema/department";
+import { UserType } from "@/schema";
 
-const Page = async () => {
-  const users = await serverApi.user.getUsers();
-
-
+export default async function Departments() {
+  const users =
+    await serverApi.user.getUsers();
   return (
-    <div className="flex w-full flex-col gap-4 p-2">
-      <div className="mb-2 flex items-center justify-between">
-        <PageHeader header={false} title="User list" Icon={User2} />
-        <UserActions action="create" />
+    <div>
+      {/* <PageHeader title="All Departments" />
+      <span>All Departments Information</span> */}
+
+      <div className="rounded-xl bg-white p-4">
+        <div className="flex justify-between items-center">
+        <div className="flex items-center border border-gray-400 px-4 w-[30%] mb-8 rounded-xl py-2">
+          <Search />
+          <input
+            type="text"
+            className="search-input border-none outline-none text-xl pl-4"
+            placeholder="Search by name or department"
+          />
+        </div>
+        <button>Add New Department</button>
+        </div>
+        <div className="grid grid-cols-2 gap-4">
+
+        {users?.map((user) => (
+          <div
+            key={user.id}
+            className="rounded-xl border border-gray-400 p-4"
+          >
+            <div className="flex items-center justify-between border-b border-gray-400 px-4">
+              <div className="grid">
+                <span>{user.name}</span>
+                <span>{user.surname}</span>
+              </div>
+              <Link
+                href={`/admin/users/${user.id}`}
+                className="text-[#dda83a]"
+              >
+                View All
+              </Link>
+            </div>
+          </div>
+        ))}
+        </div>
+
       </div>
-      {/* <DataTable
-        columns={userColumns}
-        data={users}
-        searchColumn="surname"
-        search={true}
-      /> */}
     </div>
   );
-};
-
-export default Page;
+}

@@ -4,17 +4,17 @@ import { getAuth } from "@/context";
 
 export async function middleware(request: NextRequest) {
   const auth = await getAuth();
-
+  const user = auth?.role.toLowerCase();
 
   const { pathname } = request.nextUrl;
 
-  if (pathname.startsWith("/dashboard")) {
+  if (pathname.startsWith(`/${user}/home`)) {
     if (!auth) {
       return NextResponse.redirect(new URL(`/blocked`, request.url));
     }
   }
 
-  if (pathname.startsWith("/dashboard/users")) {
+  if (pathname.startsWith("/home/users")) {
     if (!auth || auth.role !== "Admin") {
       return NextResponse.redirect(new URL(`/blocked`, request.url));
     }
@@ -22,7 +22,7 @@ export async function middleware(request: NextRequest) {
 
   if (pathname === "/") {
     if (auth) {
-      return NextResponse.redirect(new URL(`/dashboard`, request.url));
+      return NextResponse.redirect(new URL(`/${user}/home`, request.url));
     }
   }
 
@@ -30,5 +30,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: '/((?!api|_next/static|_next/image|favicon.ico).*)',
+  matcher: "/((?!api|_next/static|_next/image|favicon.ico).*)",
 };

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Bell, AlignLeft, BellIcon, ListChecks } from "lucide-react";
+import { Bell, AlignLeft, BellIcon, ListChecks, Mail } from "lucide-react";
 
 import { ThemeToggle } from "./ThemeToggler";
 import { Badge } from "@/packages/ui";
@@ -18,14 +18,14 @@ import { LinkIconButton } from "../LinkButton";
 import type { NotificationType } from "@/schema";
 import { clientApi } from "@/client/react";
 import { UiContextType, useUiStateContext } from "@/context";
+import { capitalizeWord } from "@/utils/capitalize";
 
 export function TopNav() {
   const pathname = usePathname();
   const pathSegments = pathname.split("/");
   const location = pathSegments[2] ?? pathSegments[1];
   const [notifications, setNotifications] = useState<NotificationType[]>([]);
-  const {toggleMenu} = useUiStateContext()
-
+  const { toggleMenu } = useUiStateContext();
 
   const { data: userProfile, isLoading, error } = clientApi.user.me.useQuery();
 
@@ -34,10 +34,14 @@ export function TopNav() {
   }
 
   return (
-    <div className="sticky top-0 z-50 flex h-24 w-full items-center justify-between bg-[#dda73a17] px-2 py-8 md:px-6">
+    <div className="sticky top-0 z-50 flex h-16 w-full items-center justify-between bg-[#dda73a17] px-2 pb-4 pt-8 md:px-6">
       <div className="flex items-center gap-4">
-        <AlignLeft size={40} className="cursor-pointer text-gray-500" onClick={toggleMenu} />
-        {/* <PageHeader title={location ?? ""} header={true} /> */}
+        <AlignLeft
+          size={40}
+          className="cursor-pointer text-gray-500"
+          onClick={toggleMenu}
+        />
+        <PageHeader title={capitalizeWord(location!) ?? ""} description={`All ${capitalizeWord(location!)} Information`} name={userProfile?.name} />
       </div>
       <div className="flex items-center gap-4">
         {/* <ThemeToggle /> */}
@@ -48,12 +52,11 @@ export function TopNav() {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <div className="relative flex h-fit w-fit cursor-pointer">
-                  <BellIcon className="relative bottom-0 left-0 right-0 top-0 h-5 w-5 text-gray-500 dark:text-gray-400" />
+                  <Mail className="relative bottom-0 left-0 right-0 top-0 h-5 w-5 text-gray-500 dark:text-gray-400" />
                   <Badge
-                    variant="success"
-                    className="absolute right-[-5px] top-[-10px] flex h-4 w-4 items-center justify-center rounded-full p-0 text-xs font-normal"
+                    className="absolute bg-[#015a4a] text-white right-[-5px] top-[-10px] flex h-4 w-4 items-center justify-center rounded-full p-0 text-xs font-normal"
                   >
-                    {/* {notifications.length + tasks.length} */}
+                    0{/* {notifications.length + tasks.length} */}
                   </Badge>
                 </div>
               </DropdownMenuTrigger>
@@ -62,14 +65,13 @@ export function TopNav() {
                   <LinkIconButton
                     title="Notifications"
                     link={true}
-                    url={`/dashboard/notifications/${userProfile?.id}`}
-                    Icon={Bell}
+                    url={`/home/notifications/${userProfile?.id}`}
+                    Icon={Mail}
                     badge={true}
                     badgeValue={notifications.length}
                     badgeVariant="inbox"
                   />
                 </DropdownMenuItem>
-
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
