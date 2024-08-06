@@ -12,12 +12,12 @@ export const CrudActions = (props: ActionProps) => {
   return !partial ? (
     <div className="w-full flex items-center gap-4 justify-center">
       <Link href={`${url}/${id}`}>
-        <Button variant="primary" className="h-fit w-fit px-2">
-          <Eye size={15} className="text-white" />
+        <Button  className="h-fit w-fit px-2">
+          <Eye size={15} className="text-black" />
         </Button>
       </Link>
-      <Button variant="secondary" className="h-fit w-fit px-2">
-        <SquarePen size={15} className="text-white" />
+      <Button  className="h-fit w-fit px-2">
+        <SquarePen size={15} className="text-black" />
       </Button>
 
       {model && <DeleteAction actionId={id} model={model}/>}
@@ -26,14 +26,14 @@ export const CrudActions = (props: ActionProps) => {
     <div className="w-full flex items-center gap-4 justify-center">
       {view && (
         <Link href={`${url}/${id}`}>
-          <Button variant="primary" className="h-fit w-fit px-2">
-            <Eye size={15} className="text-white" />
+          <Button  className="h-fit w-fit px-2">
+            <Eye size={15} className="text-black" />
           </Button>
         </Link>
       )}
       {edit && (
-        <Button variant="secondary" className="h-fit w-fit px-2">
-          <SquarePen size={15} className="text-white" />
+        <Button  className="h-fit w-fit px-2">
+          <SquarePen size={15} className="text-black" />
         </Button>
       )}
 

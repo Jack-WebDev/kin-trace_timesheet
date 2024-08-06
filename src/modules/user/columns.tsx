@@ -1,6 +1,7 @@
 "use client";
 
 import type { ColumnDef } from "@tanstack/react-table";
+import { castArray } from "lodash";
 import {
   Avatar,
   AvatarFallback,
@@ -42,28 +43,61 @@ export const userColumns: ColumnDef<UserType>[] = [
   {
     accessorKey: "email",
     header: ({ column }) => {
+
       return <DataTableColumnHeader column={column} title="Email" />;
     },
   },
   {
-    accessorKey: "role",
+    accessorKey: "department",
     header: ({ column }) => {
-      return <DataTableColumnHeader column={column} title="Role" />;
-    },
 
+
+
+      return <DataTableColumnHeader column={column} title="Department" />;
+    },
     cell: ({ row }) => {
-      const role: string = row.getValue("role");
+      const department = row.original.department;
       return (
-        <Badge
-          variant={
-            role === "Admin"
-              ? "success"
-              : role === "Supervisor"
-                ? "secondary"
-                : "danger"
-          }
-        >
-          <p className="text-xs">{role}</p>
+        <div className="flex w-full items-center gap-4">
+
+
+          <p className="text-sm font-semibold ">
+            {department?.name}
+          </p>
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: "position",
+    header: ({ column }) => {
+      return <DataTableColumnHeader column={column} title="Position" />;
+    },
+  },
+  {
+    accessorKey: "employeeType",
+    header: ({ column }) => {
+      return <DataTableColumnHeader column={column} title="Employee Type" />;
+    },
+    cell: ({ row }) => {
+      const employeeType: string = row.getValue("employeeType");
+      const getBadgeColor = (employeeType: string) => {
+        switch (employeeType) {
+          case "Contract":
+            return "bg-blue-500 text-white";
+          case "Full_Time":
+            return "bg-green-500 text-white";
+          case "Part_Time":
+            return "bg-yellow-500 text-white";
+          case "Intern":
+            return "bg-gray-500 text-white";
+          default:
+            return "bg-gray-200 text-black";
+        }
+      };
+      return (
+        <Badge className={`${getBadgeColor(employeeType)}`}>
+          <p className="text-xs">{employeeType}</p>
         </Badge>
       );
     },
@@ -95,7 +129,7 @@ export const userColumns: ColumnDef<UserType>[] = [
         <div className="flex w-full items-center justify-center">
           <CrudActions
             id={user.id}
-            url="/home/users"
+            url="/admin/employees"
             model="user"
             partial
             remove
