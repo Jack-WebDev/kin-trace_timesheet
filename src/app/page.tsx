@@ -1,4 +1,16 @@
 "use client";
+import { Button } from "@/packages/ui/button"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/packages/ui/dialog"
+import { Input } from "@/packages/ui/input"
+import { Label } from "@/packages/ui/label"
 
 import { LoginForm } from "@/modules/auth";
 import { RegisterForm } from "@/modules/auth/RegisterForm";
@@ -59,6 +71,7 @@ const Home = () => {
             </TabsContent>
           </Tabs>
         </div>
+
       </div>
     </>
   );
