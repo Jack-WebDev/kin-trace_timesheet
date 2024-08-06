@@ -29,7 +29,7 @@ export default async function Department({
 
   return (
     <div>
-      <PageHeader title={`${name} Department`} Icon={Building} />
+      <PageHeader title={`${name} Department`} />
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
