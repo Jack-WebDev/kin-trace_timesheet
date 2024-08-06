@@ -29,7 +29,7 @@ export default async function Department({
 
   return (
     <div>
-      <PageHeader title={`${name} Department`} />
+      {/* <PageHeader title={`${name} Department`} />
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
@@ -42,7 +42,7 @@ export default async function Department({
             <BreadcrumbPage>{department?.name} Department</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
-      </Breadcrumb>
+      </Breadcrumb> */}
 
       <div className="bg-white rounded-xl">
         <div className="flex justify-between items-center">

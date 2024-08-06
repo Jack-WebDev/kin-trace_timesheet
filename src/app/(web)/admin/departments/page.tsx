@@ -11,8 +11,8 @@ export default async function Departments() {
     await serverApi.department.getDepartments();
   return (
     <div>
-      <PageHeader title="All Departments" />
-      <span>All Departments Information</span>
+      {/* <PageHeader title="All Departments" /> */}
+      {/* <span>All Departments Information</span> */}
 
       <div className="rounded-xl bg-white p-4">
         <div className="flex justify-between items-center">

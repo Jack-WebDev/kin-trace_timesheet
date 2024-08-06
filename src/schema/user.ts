@@ -140,14 +140,17 @@ export type UserType = {
   status: UserStatus;
   gender: Gender;
   position: string;
-  employmentType: EmployeeType;
+  employmentType?: EmployeeType;
   maritalStatus: MaritalStatus;
   postalCode: string;
   province: string;
-  startDate: string;
+  startDate: Date;
   ndtEmail: string;
   contactNumber: string;
-  image: string | null;
+  image?: string | null;
+  department: {
+    name: string;
+  };
   createdAt: Date;
 };
 

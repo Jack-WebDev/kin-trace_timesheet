@@ -58,7 +58,7 @@ export const DeleteAction = (props: ActionProps) => {
     <AlertDialog>
       <AlertDialogTrigger asChild>
         <Button variant="danger" className="h-fit w-fit px-2">
-          <Trash2 size={15} className="text-white" />
+          <Trash2 size={15} className="text-black" />
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent className="h-[200px] w-[500px]">
