@@ -4,6 +4,7 @@ import { Eye, SquarePen } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import { DeleteAction } from "./deleteAction";
+import { UpdateDepartmentForm } from "@/modules/department/updateDepartment";
 
 
 export const CrudActions = (props: ActionProps) => {
@@ -11,14 +12,10 @@ export const CrudActions = (props: ActionProps) => {
 
   return !partial ? (
     <div className="w-full flex items-center gap-4 justify-center">
-      <Link href={`${url}/${id}`}>
-        <Button  className="h-fit w-fit px-2">
-          <Eye size={25} className="text-black" />
-        </Button>
-      </Link>
-      <Button  className="h-fit w-fit px-2">
-        <SquarePen size={25} className="text-black" />
-      </Button>
+
+      
+        <UpdateDepartmentForm id={id} />
+      
 
       {model && <DeleteAction actionId={id} model={model}/>}
     </div>

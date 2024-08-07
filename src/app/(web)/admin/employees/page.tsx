@@ -1,7 +1,6 @@
 "use client";
 
 import { PlusCircle, Search } from "lucide-react";
-// import { UserType } from "@/schema";
 import { Button, DataTable, Loader } from "@/packages/ui";
 import { userColumns } from "@/modules/user";
 import { clientApi } from "@/client/react";

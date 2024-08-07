@@ -8,6 +8,7 @@ export const getDepartments = async (ctx: Context) => {
         _count: {
           select: {
             User: true,
+            Project: true,
           },
         }
       }

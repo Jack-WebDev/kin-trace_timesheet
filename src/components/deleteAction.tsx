@@ -21,7 +21,7 @@ import { ModelName } from "@/client/apiModel";
 export const DeleteAction = (props: ActionProps) => {
   const [loading, setLoading] = useState<boolean>(false);
   const { actionId, model } = props;
-  const { toast } = useToast(); // Use the toast from the hook
+  const { toast } = useToast(); 
 
   const deleteMutation = clientApi[model as ModelName].delete.useMutation({
     onSuccess: async (data) => {
@@ -69,7 +69,7 @@ export const DeleteAction = (props: ActionProps) => {
         ) : (
           <>
             <AlertDialogHeader className="text-lg font-semibold">
-              Confirm your actions
+              Are you sure you want to delete?
             </AlertDialogHeader>
             <AlertDialogDescription>
               This action cannot be undone. This will permanently delete this

@@ -29,9 +29,7 @@ export const departmentRouter = {
     .mutation(async ({ input, ctx }) => {
       return await updateDepartment(ctx, input);
     }),
-  deleteDepartment: adminProcedure
-    .input(z.object({ id: z.string() }))
-    .mutation(async ({ input, ctx }) => {
-      return await deleteDepartment(ctx, input);
+    delete: adminProcedure.input(z.string()).mutation(async ({ input, ctx }) => {
+      return deleteDepartment(ctx, input);
     }),
 };
