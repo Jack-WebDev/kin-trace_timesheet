@@ -5,6 +5,7 @@ import Link from "next/link";
 import React from "react";
 import { DeleteAction } from "./deleteAction";
 import { UpdateDepartmentForm } from "@/modules/department/updateDepartment";
+import { UpdateProjectForm } from "@/modules/project/updateProjectForm";
 
 
 export const CrudActions = (props: ActionProps) => {
@@ -13,8 +14,9 @@ export const CrudActions = (props: ActionProps) => {
   return !partial ? (
     <div className="w-full flex items-center gap-4 justify-center">
 
-      
-        <UpdateDepartmentForm id={id} />
+        {url === "/admin/departments" && <UpdateDepartmentForm id={id} />}
+        {url === "/admin/projects" && <UpdateProjectForm id={id} />}
+
       
 
       {model && <DeleteAction actionId={id} model={model}/>}

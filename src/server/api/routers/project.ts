@@ -5,7 +5,7 @@ import {
   updateProject,
 } from "../controllers/projects/mutation";
 import { getProject, getProjects } from "../controllers/projects/query";
-import { protectedProcedure } from "../trpc";
+import { adminProcedure, protectedProcedure } from "../trpc";
 import {
   createProjectSchema,
   updateProjectSchema,
@@ -28,9 +28,7 @@ export const projectRouter = {
     .mutation(async ({ input, ctx }) => {
       return await updateProject(ctx, input);
     }),
-  deleteProject: protectedProcedure
-    .input(z.object({ id: z.string() }))
-    .mutation(async ({ input, ctx }) => {
-      return await deleteProject(ctx, input);
+    delete: adminProcedure.input(z.string()).mutation(async ({ input, ctx }) => {
+      return deleteProject(ctx, input);
     }),
 };
