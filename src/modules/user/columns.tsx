@@ -17,7 +17,7 @@ export const userColumns: ColumnDef<UserType>[] = [
   {
     accessorKey: "firstName",
     header: ({ column }) => {
-      return <DataTableColumnHeader column={column} title="User" />;
+      return <DataTableColumnHeader column={column} title="Employee Name" />;
     },
 
     cell: ({ row }) => {

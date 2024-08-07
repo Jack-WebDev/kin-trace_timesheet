@@ -1,11 +1,38 @@
-import { PlusCircle, Search } from "lucide-react";
-import { serverApi } from "@/client/server";
-import { UserType } from "@/schema";
-import { Button, DataTable } from "@/packages/ui";
-import { userColumns } from "@/modules/user";
+"use client";
 
-export default async function Departments() {
-  const data: UserType[] = await serverApi.user.getUsers();
+import { PlusCircle, Search } from "lucide-react";
+// import { UserType } from "@/schema";
+import { Button, DataTable, Loader } from "@/packages/ui";
+import { userColumns } from "@/modules/user";
+import { clientApi } from "@/client/react";
+import { useEffect, useState } from "react";
+import useDebounce from "@/hooks/useDebounce";
+import { useRouter } from "next/navigation";
+
+export default function Departments() {
+  const { data, isLoading, error } = clientApi.user.getUsers.useQuery();
+  const [searchQuery, setSearchQuery] = useState('');
+  const debouncedSearchQuery = useDebounce(searchQuery, 500);
+  const [filteredEmployees, setFilteredEmployees] = useState(data);
+  const router = useRouter();
+
+  useEffect(() => {
+    const filtered = data?.filter((employee) =>
+      employee.name.toLowerCase().includes(debouncedSearchQuery.toLowerCase()) ||
+      employee.email.toLowerCase().includes(debouncedSearchQuery.toLowerCase())
+    );
+    setFilteredEmployees(filtered);
+  }, [debouncedSearchQuery,data]);
+
+  const employeeData = filteredEmployees ? filteredEmployees : [];
+
+  if (error) {
+    return <div>Error loading users</div>;
+  }
+
+  if (isLoading) {
+    return <div><Loader/></div>;
+  }
   return (
     <div>
       <div className="rounded-xl bg-white p-4">
@@ -15,15 +42,24 @@ export default async function Departments() {
             <input
               type="text"
               className="search-input border-none pl-4 text-xl outline-none"
-              placeholder="Search by name or department"
+              placeholder="Search by employee name or email...."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
-          <Button className="flex items-center gap-x-2 bg-[#dda83a] text-white rounded-xl"><PlusCircle size={20} className="text-white" /> Add New Employee</Button>
+          <Button onClick={() => router.push("/admin/employees/add-employee")} className="flex items-center gap-x-2 rounded-xl bg-[#dda83a] text-white hover:bg-[#dda83a]/80">
+            <PlusCircle size={20} className="text-white" /> Add New Employee
+          </Button>
         </div>
         <div className="grid grid-cols-2 gap-4"></div>
       </div>
 
-      <DataTable data={data} columns={userColumns} searchColumn="name" search />
+      <DataTable
+        data={employeeData}
+        columns={userColumns}
+        searchColumn="name"
+        search
+      />
     </div>
   );
 }

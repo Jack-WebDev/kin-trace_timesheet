@@ -149,6 +149,7 @@ export type UserType = {
   contactNumber: string;
   image?: string | null;
   department: {
+    id: string;
     name: string;
   };
   createdAt: Date;
