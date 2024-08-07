@@ -4,6 +4,8 @@ import { Eye, SquarePen } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import { DeleteAction } from "./deleteAction";
+import { UpdateDepartmentForm } from "@/modules/department/updateDepartment";
+import { UpdateProjectForm } from "@/modules/project/updateProjectForm";
 
 
 export const CrudActions = (props: ActionProps) => {
@@ -11,14 +13,11 @@ export const CrudActions = (props: ActionProps) => {
 
   return !partial ? (
     <div className="w-full flex items-center gap-4 justify-center">
-      <Link href={`${url}/${id}`}>
-        <Button variant="primary" className="h-fit w-fit px-2">
-          <Eye size={15} className="text-white" />
-        </Button>
-      </Link>
-      <Button variant="secondary" className="h-fit w-fit px-2">
-        <SquarePen size={15} className="text-white" />
-      </Button>
+
+        {url === "/admin/departments" && <UpdateDepartmentForm id={id} />}
+        {url === "/admin/projects" && <UpdateProjectForm id={id} />}
+
+      
 
       {model && <DeleteAction actionId={id} model={model}/>}
     </div>
@@ -26,14 +25,14 @@ export const CrudActions = (props: ActionProps) => {
     <div className="w-full flex items-center gap-4 justify-center">
       {view && (
         <Link href={`${url}/${id}`}>
-          <Button variant="primary" className="h-fit w-fit px-2">
-            <Eye size={15} className="text-white" />
+          <Button  className="h-fit w-fit px-2">
+            <Eye size={25} className="text-black" />
           </Button>
         </Link>
       )}
       {edit && (
-        <Button variant="secondary" className="h-fit w-fit px-2">
-          <SquarePen size={15} className="text-white" />
+        <Button  className="h-fit w-fit px-2">
+          <SquarePen size={25} className="text-black" />
         </Button>
       )}
 

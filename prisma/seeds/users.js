@@ -16,6 +16,11 @@ function generateIdNumber() {
   return RSA_ID_NUMBER;
 }
 
+function getRole() {
+  const roles = ["Admin", "Employee", "Manager"];
+  return roles[Math.floor(Math.random() * roles.length)];
+}
+
 async function insertData() {
   const departments = await Promise.all([
     prisma.department.create({
@@ -109,7 +114,8 @@ async function insertData() {
         maritalStatus: "Married",
         postalCode: faker.location.zipCode(),
         province: "Gauteng",
-        startDate: faker.date.past(),
+        leaveDays: "10",
+        startDate: "2023-01-01",
         dob: "1990-01-01",
         departmentId: departments[0].id,
         createdAt: faker.date.recent(),
@@ -133,10 +139,11 @@ async function insertData() {
         officeLocation: "Johannesburg",
         position: "Software Engineer",
         employeeType: "Contract",
+        leaveDays: "30",
         maritalStatus: "Married",
         postalCode: faker.location.zipCode(),
         province: "Gauteng",
-        startDate: faker.date.past(),
+        startDate: "2023-01-01",
         dob: "1990-01-01",
         departmentId: departments[1].id,
         createdAt: faker.date.recent(),
@@ -163,11 +170,41 @@ async function insertData() {
         maritalStatus: "Married",
         postalCode: faker.location.zipCode(),
         province: "Gauteng",
-        startDate: faker.date.past(),
+        leaveDays: "20",
+        startDate: "2023-01-01",
         dob: "1990-01-01",
         departmentId: departments[2].id,
         createdAt: faker.date.recent(),
       },
+      {
+        id: faker.string.uuid(),
+        email: faker.internet.email(),
+        title: "Mr",
+        password: await argon.hash(faker.internet.email()),
+        ethnicity: "Black",
+        gender: "Male",
+        status: "Inactive",
+        role: "Employee",
+        address: faker.location.streetAddress(),
+        city: faker.location.city(),
+        contactNumber: faker.phone.number(),
+        idNumber: generateIdNumber(),
+        name: faker.person.firstName(),
+        surname: faker.person.lastName(),
+        ndtEmail: faker.internet.email(),
+        officeLocation: faker.location.streetAddress(),
+        position: "Software Engineer",
+        employeeType: "Contract",
+        maritalStatus: "Married",
+        leaveDays: "40",
+        postalCode: faker.location.zipCode(),
+        province: "Gauteng",
+        startDate: "2023-01-01",
+        dob: "1990-01-01",
+        departmentId: departments[2].id,
+        createdAt: faker.date.recent(),
+      },
+
     ],
   });
 }

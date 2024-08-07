@@ -1,75 +1,175 @@
-import { Gender, UserRole, UserStatus } from "@prisma/client";
-import { boolean, nan, nativeEnum, object, string, z } from "zod";
+import { nativeEnum, object, string, z } from "zod";
 
 export const createUserSchema = object({
-  email: string({
-    required_error: "Email is required",
-    invalid_type_error: "Email must be a string",
-  }).email({ message: "Invalid email address" }),
+  title: string(),
   name: string({
     required_error: "Name is required",
     invalid_type_error: "Invalid entry",
   }),
+  surname: string({
+    required_error: "Surname  is required",
+    invalid_type_error: "invalid entry ",
+  }),
+  email: string({
+    required_error: "Email is required",
+    invalid_type_error: "Email must be a string",
+  }).email({ message: "Invalid email address" }),
+  password: string().optional(),
+  idNumber: string({
+    required_error: "ID Number is required",
+    invalid_type_error: "ID Number must be a string",
+  })
+    .min(13, { message: "ID Number must be 13 characters" })
+    .max(13, { message: "ID Number must be 13 characters" }),
+  dob: string(),
   contactNumber: string({
     required_error: "Contact number required",
   })
     .startsWith("0", { message: "Contact must start with '0'" })
     .refine((val) => val.length === 10, { message: "invalid phone length" }),
-  surname: string({
-    required_error: "Surname  is required",
-    invalid_type_error: "invalid entry ",
-  }),
-  role: nativeEnum(UserRole),
-  status: nativeEnum(UserStatus).optional(),
-  gender: nativeEnum(Gender).optional(),
-  image: string({
-    invalid_type_error: "Enter a valid image url",
+  ndtEmail: string({
+    required_error: "NDT Email is required",
+    invalid_type_error: "NDT Email must be a string",
   })
-    .url()
-    .optional(),
+    .email({ message: "Invalid NDT email address" })
+    .refine((email) => email.endsWith("@ndt.co.za"), {
+      message: "NDT Email must be a valid NDT email",
+    }),
+  gender: string(),
+  position: string(),
+  employeeType: string(),
+  maritalStatus: string(),
+  address: string(),
+  city: string(),
+  province: string(),
+  leaveDays: string(),
+  postalCode: string(),
+  ethnicity: string(),
+  role: string(),
+  status: string(),
+
+  officeLocation: string(),
+  startDate: string(),
+  department: string(),
 });
 
 export const userId = string();
 
 export const updateUserSchema = object({
-  userId: string().uuid({ message: "Invalid userId provided" }).optional(),
-  email: string().email({ message: "Invalid email address" }).optional(),
-  name: string().optional(),
+  id: string().cuid(),
+  title: string(),
+  name: string({
+    required_error: "Name is required",
+    invalid_type_error: "Invalid entry",
+  }),
+  surname: string({
+    required_error: "Surname  is required",
+    invalid_type_error: "invalid entry ",
+  }),
+  email: string({
+    required_error: "Email is required",
+    invalid_type_error: "Email must be a string",
+  }).email({ message: "Invalid email address" }),
+  password: string().optional(),
+  idNumber: string({
+    required_error: "ID Number is required",
+    invalid_type_error: "ID Number must be a string",
+  })
+    .min(13, { message: "ID Number must be 13 characters" })
+    .max(13, { message: "ID Number must be 13 characters" }),
+  dob: string(),
   contactNumber: string({
     required_error: "Contact number required",
   })
     .startsWith("0", { message: "Contact must start with '0'" })
-    .refine((val) => val.length === 10, { message: "invalid phone length" })
-    .optional(),
-  surname: string().optional(),
-  role: nativeEnum(UserRole).optional(),
-  status: nativeEnum(UserStatus).optional(),
-  gender: nativeEnum(Gender).optional(),
-  phoneVerified: boolean().optional(),
-  emailVerified: boolean().optional(),
-  image: string().url().optional(),
+    .refine((val) => val.length === 10, { message: "invalid phone length" }),
+  ndtEmail: string({
+    required_error: "NDT Email is required",
+    invalid_type_error: "NDT Email must be a string",
+  })
+    .email({ message: "Invalid NDT email address" })
+    .refine((email) => email.endsWith("@ndt.co.za"), {
+      message: "NDT Email must be a valid NDT email",
+    }),
+  gender: string(),
+  position: string(),
+  employeeType: string(),
+  maritalStatus: string(),
+  address: string(),
+  city: string(),
+  province: string(),
+  leaveDays: string(),
+  postalCode: string(),
+  ethnicity: string(),
+  role: string(),
+  status: string(),
 
+  officeLocation: string(),
+  startDate: string(),
+  department: object({
+    connect: object({
+      id: string(),
+    }),
+  }),
 });
 
-export type UserType = {
-  id: string;
+export type createUserType = {
+  title: string;
   email: string;
   name: string;
   surname: string;
-  role: UserRole;
-  status: UserStatus;
-  gender: Gender;
-  phoneVerified: boolean | null;
-  emailVerified: boolean | null;
+  role: string;
+  status: string;
+  gender: string;
+  address: string;
+  city: string;
+  leaveDays: string,
+  ethnicity: string;
+  position: string;
+  employmentType?: string;
+  maritalStatus: string;
+  postalCode: string;
+  province: string;
+  idNumber: string;
+  dob: string;
+  officeLocation: string;
+  startDate: string;
+  ndtEmail: string;
   contactNumber: string;
-  image: string | null;
-  createdAt: Date;
+  department: string
+}
+
+export type UserType = {
+  id: string;
+  title: string;
+  email: string;
+  name: string;
+  surname: string;
+  role: string;
+  status: string;
+  gender: string;
+  address: string;
+  city: string;
+  leaveDays: string,
+  ethnicity: string;
+  position: string;
+  employmentType?: string;
+  maritalStatus: string;
+  postalCode: string;
+  province: string;
+  idNumber: string;
+  dob: string;
+  officeLocation: string;
+  startDate: string;
+  ndtEmail: string;
+  contactNumber: string;
+  department?: string
 };
 
 export type AuthUserType = {
   id: string;
-  status: UserStatus;
-  role: UserRole;
+  status: string;
+  role: string;
   accessToken: string;
 };
 

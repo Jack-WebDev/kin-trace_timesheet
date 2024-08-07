@@ -18,10 +18,10 @@ import {
   UserType,
   updateUserSchema,
 } from "@/schema";
-import {
-  userRoles,
-  userStatus,
-} from "@/enum/constants";
+// import {
+//   userRoles,
+//   userStatus,
+// } from "@/enum/constants";
 
 export function UpdateForm(props: UpdateFormProps) {
   const [loading, setLoading] = useState<boolean>(false);
@@ -117,7 +117,7 @@ export function UpdateForm(props: UpdateFormProps) {
               defaultValue={user?.email}
             />
 
-            <div className="flex flex-col lg:flex-row md:items-center gap-4">
+            {/* <div className="flex flex-col lg:flex-row md:items-center gap-4">
               <FormSelect
                 width="300px"
                 label="Status"
@@ -135,7 +135,7 @@ export function UpdateForm(props: UpdateFormProps) {
                 name="role"
                 defaultValue={user?.role}
               />
-            </div>
+            </div> */}
           </div>
         </div>
 

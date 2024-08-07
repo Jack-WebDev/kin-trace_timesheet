@@ -12,9 +12,9 @@ const badgeVariants = cva(
           "border-transparent bg-primary text-primary-foreground hover:bg-primary/80",
         secondary:
           "border-transparent bg-secondary text-white hover:bg-secondary/80",
-        success: "border-success bg-success text-white hover:bg-successTint",
+        success: "border-success bg-[#015a4a] text-white hover:bg-successTint",
         primary: "border-primary bg-primary text-white hover:bg-primaryTint",
-        danger: "border-dander bg-danger text-white hover:bg-dander/80",
+        danger: "border-dander bg-red-600 text-white hover:bg-dander/80",
         destructive:
           "border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80",
         outline: "text-foreground",

@@ -6,7 +6,7 @@ import { clientApi } from "@/client/react";
 
 export const User = (props: UserProps) => {
   const { userId, bold, image } = props;
-  const {data: user, isLoading} = clientApi.user.single.useQuery(userId);
+  const {data: user, isLoading} = clientApi.user.getUser.useQuery(userId);
 
   if(!user){
     return null;
