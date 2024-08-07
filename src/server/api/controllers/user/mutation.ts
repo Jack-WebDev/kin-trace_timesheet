@@ -2,24 +2,24 @@ import { TRPCError } from "@trpc/server";
 import type { CreateUserSchemaType, UpdateUserSchemaType } from "@/schema";
 import type { Context } from "@/server/api/trpc";
 
-export const createUser = async (ctx: Context, input: CreateUserSchemaType) => {
-  try {
-    await ctx.db.user.create({
-      data: {
-        ...input,
-      },
-    });
+// export const createUser = async (ctx: Context, input: CreateUserSchemaType) => {
+//   try {
+//     await ctx.db.user.create({
+//       data: {
+//         ...input,
+//       },
+//     });
 
-    return {
-      message: "User added successfully",
-    };
-  } catch (error) {
-    throw new TRPCError({
-      code: "INTERNAL_SERVER_ERROR",
-      message: "Failed to create new user",
-    });
-  }
-};
+//     return {
+//       message: "User added successfully",
+//     };
+//   } catch (error) {
+//     throw new TRPCError({
+//       code: "INTERNAL_SERVER_ERROR",
+//       message: "Failed to create new user",
+//     });
+//   }
+// };
 
 export const updateUser = async (ctx: Context, input: UpdateUserSchemaType) => {
   const { id, ...others } = input;

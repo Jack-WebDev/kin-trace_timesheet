@@ -13,11 +13,11 @@ export const CrudActions = (props: ActionProps) => {
     <div className="w-full flex items-center gap-4 justify-center">
       <Link href={`${url}/${id}`}>
         <Button  className="h-fit w-fit px-2">
-          <Eye size={15} className="text-black" />
+          <Eye size={25} className="text-black" />
         </Button>
       </Link>
       <Button  className="h-fit w-fit px-2">
-        <SquarePen size={15} className="text-black" />
+        <SquarePen size={25} className="text-black" />
       </Button>
 
       {model && <DeleteAction actionId={id} model={model}/>}
@@ -27,13 +27,13 @@ export const CrudActions = (props: ActionProps) => {
       {view && (
         <Link href={`${url}/${id}`}>
           <Button  className="h-fit w-fit px-2">
-            <Eye size={15} className="text-black" />
+            <Eye size={25} className="text-black" />
           </Button>
         </Link>
       )}
       {edit && (
         <Button  className="h-fit w-fit px-2">
-          <SquarePen size={15} className="text-black" />
+          <SquarePen size={25} className="text-black" />
         </Button>
       )}
 

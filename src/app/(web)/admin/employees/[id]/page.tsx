@@ -1,6 +1,15 @@
 "use client";
 import { clientApi } from "@/client/react";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/packages/ui/breadcrumb";
 import { ArrowLeft } from "lucide-react";
+import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 export default function Employee() {
   const router = useRouter();
@@ -16,9 +25,25 @@ export default function Employee() {
 
   return (
     <>
-    <ArrowLeft onClick={() => router.back()} className="text-black cursor-pointer" />
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink>
+              <Link href="/admin/employees">All Employees</Link>
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>{user.name} {user.surname}</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+      {/* <ArrowLeft
+        onClick={() => router.back()}
+        className="cursor-pointer text-black"
+      /> */}
 
-        <h1>{user.name}</h1>
+      <h1>{user.name}</h1>
     </>
   );
 }

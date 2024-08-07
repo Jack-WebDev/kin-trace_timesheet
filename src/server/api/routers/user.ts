@@ -1,6 +1,6 @@
 import { createUserSchema, updateUserSchema, userId } from "@/schema";
 import {
-  createUser,
+  // createUser,
   updateUser,
   deleteUser,
   getUsers,
@@ -27,11 +27,11 @@ export const userRouter = createRouter({
     return user;
   }),
 
-  create: adminProcedure
-    .input(createUserSchema)
-    .mutation(async ({ input, ctx }) => {
-      return await createUser(ctx, input);
-    }),
+  // create: adminProcedure
+  //   .input(createUserSchema)
+  //   .mutation(async ({ input, ctx }) => {
+  //     return await createUser(ctx, input);
+  //   }),
 
   update: adminProcedure
     .input(updateUserSchema)

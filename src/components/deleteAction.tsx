@@ -58,10 +58,10 @@ export const DeleteAction = (props: ActionProps) => {
     <AlertDialog>
       <AlertDialogTrigger asChild>
         <Button variant="danger" className="h-fit w-fit px-2">
-          <Trash2 size={15} className="text-black" />
+          <Trash2 size={25} className="text-black" />
         </Button>
       </AlertDialogTrigger>
-      <AlertDialogContent className="h-[200px] w-[500px]">
+      <AlertDialogContent className="h-[200px] w-[500px] bg-white border shadow-xl">
         {loading ? (
           <div className="flex h-full w-full items-center justify-center">
             <Loader className="border-primary" />
@@ -76,12 +76,12 @@ export const DeleteAction = (props: ActionProps) => {
               information.
             </AlertDialogDescription>
             <AlertDialogFooter>
-              <AlertDialogCancel className="h-10 bg-dangerHover text-white hover:bg-danger hover:text-white">
+              <AlertDialogCancel className="h-10 bg-red-500 text-white hover:bg-red-500/80 rounded-xl hover:text-white hover:border-none">
                 Cancel
               </AlertDialogCancel>
               <Button
                 onClick={() => deleteAction(actionId)}
-                className="h-10 bg-success text-white hover:bg-successTint"
+                className="h-10 bg-[#015a4a] text-white hover:bg-[#015a4a]/80 rounded-xl"
               >
                 {loading ? (
                   <div className="flex h-full w-full items-center justify-center">
