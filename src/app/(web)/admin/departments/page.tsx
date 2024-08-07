@@ -1,55 +1,139 @@
-import { clientApi } from "@/client/react";
-import { PageHeader } from "@/components";
-import { Building, Search } from "lucide-react";
-import React from "react";
-import Link from "next/link";
-import { serverApi } from "@/client/server";
-import { DepartmentsType } from "@/schema/department";
+"use client";
 
-export default async function Departments() {
-  const departments: DepartmentsType[] =
-    await serverApi.department.getDepartments();
+import { PlusCircle, Search } from "lucide-react";
+import {
+  Button,
+  DataTable,
+  Loader,
+  ResponseMessage,
+  toast,
+} from "@/packages/ui";
+import { clientApi } from "@/client/react";
+import { useEffect, useState } from "react";
+import useDebounce from "@/hooks/useDebounce";
+import { useRouter } from "next/navigation";
+import { departmentColumns } from "@/modules/department/columns";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/packages/ui/dialog";
+import { Input } from "@/packages/ui/input";
+import { Label } from "@/packages/ui/label";
+
+export default function Departments() {
+  const { data, isLoading, error } =
+    clientApi.department.getDepartments.useQuery();
+  const departmentMutation = clientApi.department.createDepartment.useMutation({
+    onSuccess: (data) => {
+      setSuccessMessage(data.message);
+      location.reload();
+    },
+    onError: (error) => {
+      setErrorMessage(error.message);
+      toast({
+        variant: "error",
+        title: "Error!",
+        description: error.message || "Unknown error",
+      });
+    },
+  });
+  const [successMessage, setSuccessMessage] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [searchQuery, setSearchQuery] = useState("");
+  const debouncedSearchQuery = useDebounce(searchQuery, 500);
+  const [filteredDepartments, setfilteredDepartments] = useState(data);
+  const [name, setName] = useState("");
+
+  useEffect(() => {
+    const filtered = data?.filter((employee) =>
+      employee.name.toLowerCase().includes(debouncedSearchQuery.toLowerCase()),
+    );
+    setfilteredDepartments(filtered);
+  }, [debouncedSearchQuery, data]);
+
+  const departmentData = filteredDepartments ? filteredDepartments : [];
+
+  const handleSubmit = async () => {
+    departmentMutation.mutate({
+      name: name,
+    });
+  };
+
+  if (error) {
+    return <div>Error loading users</div>;
+  }
+
+  if (isLoading) {
+    return (
+      <div>
+        <Loader />
+      </div>
+    );
+  }
   return (
     <div>
-      {/* <PageHeader title="All Departments" /> */}
-      {/* <span>All Departments Information</span> */}
-
-      <div className="rounded-xl bg-white p-4">
-        <div className="flex justify-between items-center">
-        <div className="flex items-center border border-gray-400 px-4 w-[30%] mb-8 rounded-xl py-2">
-          <Search />
-          <input
-            type="text"
-            className="search-input border-none outline-none text-xl pl-4"
-            placeholder="Search by name or department"
-          />
-        </div>
-        <button>Add New Department</button>
-        </div>
-        <div className="grid grid-cols-2 gap-4">
-
-        {departments?.map((department) => (
-          <div
-            key={department.id}
-            className="rounded-xl border border-gray-400 p-4"
-          >
-            <div className="flex items-center justify-between border-b border-gray-400 px-4">
-              <div className="grid">
-                <span>{department.name} Department</span>
-                <span>{department._count.User} Members</span>
-              </div>
-              <Link
-                href={`/admin/departments/${department.id}`}
-                className="text-[#dda83a]"
-              >
-                View All
-              </Link>
-            </div>
+      <div className="rounded-xl bg-white p-8">
+        <div className="flex items-baseline justify-between">
+          <div className="mb-8 flex w-[30%] items-center rounded-xl border border-gray-400 px-4 py-2">
+            <Search />
+            <input
+              type="text"
+              className="search-input border-none pl-4 text-xl outline-none"
+              placeholder="Search by department name...."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
           </div>
-        ))}
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button className="flex items-center gap-x-2 rounded-xl bg-[#dda83a] text-white hover:bg-[#dda83a]/80">
+                <PlusCircle size={20} className="text-white" /> Add New
+                Department
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="w-[50%] rounded-xl border  p-4">
+              <DialogHeader>
+                <DialogTitle>Add New Department</DialogTitle>
+              </DialogHeader>
+              <div className="grid gap-4 py-4">
+                <Label htmlFor="name">Department Name</Label>
+                <Input
+                  id="name"
+                  className="w-full rounded-xl border border-[#dda83a]"
+                  onChange={(e) => setName(e.target.value)}
+                  value={name}
+                />
+              </div>
+              <DialogFooter>
+                <Button
+                  type="submit"
+                  onClick={handleSubmit}
+                  className="rounded-xl bg-[#dda83a] text-white hover:bg-[#dda83a]/80"
+                >
+                  Add Department
+                </Button>
+              </DialogFooter>
+              <ResponseMessage
+                errorMessage={errorMessage}
+                successMessage={successMessage}
+              />
+            </DialogContent>
+          </Dialog>
         </div>
-
+        <div className="grid grid-cols-2 gap-4"></div>
       </div>
+
+      <DataTable
+        data={departmentData}
+        columns={departmentColumns}
+        searchColumn="name"
+        search
+      />
     </div>
   );
 }

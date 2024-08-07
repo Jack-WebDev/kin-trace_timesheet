@@ -49,21 +49,24 @@ export const updateDepartment = async (
   }
 };
 
-export const deleteDepartment = async (
-  ctx: Context,
-  input: DeleteDepartmentSchemaType,
-) => {
-  try {
-    await ctx.db.department.delete({
-      where: { id: input.id },
+export const deleteDepartment = async (ctx: Context, id: string) => {
+  // find the user
+  const department = await ctx.db.department.findUnique({ where: { id } });
+  if (!department) {
+    throw new TRPCError({
+      code: "NOT_FOUND",
+      message: "Department not found",
     });
-    return {
-      message: "Department deleted successfully",
-    };
+  }
+
+  try {
+    await ctx.db.department.delete({ where: { id } });
+    return { message: "Department deleted successfully" };
   } catch (error) {
     throw new TRPCError({
       code: "INTERNAL_SERVER_ERROR",
-      message: "Failed to delete department",
+      message: "failed to delete department",
     });
   }
 };
+
