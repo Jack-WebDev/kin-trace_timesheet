@@ -3,7 +3,15 @@ import { Context } from "../../trpc";
 
 export const getProjects = async (ctx: Context) => {
   try {
-    const projects = await ctx.db.project.findMany();
+    const projects = await ctx.db.project.findMany({
+      include: {
+        department: {
+          select: {
+            name: true,
+          },
+        }
+      }
+    });
     return projects;
   } catch (error) {
     throw new TRPCError({

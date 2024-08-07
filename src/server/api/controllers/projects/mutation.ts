@@ -50,18 +50,23 @@ export const updateProject = async (ctx: Context, input: UpdateProjectSchemaType
   }
 };
 
-export const deleteProject = async (ctx: Context, input: DeleteProjectSchemaType) => {
-  try {
-    await ctx.db.project.delete({
-      where: { id: input.id },
+export const deleteProject = async (ctx: Context, id: string) => {
+  // find the user
+  const project = await ctx.db.project.findUnique({ where: { id } });
+  if (!project) {
+    throw new TRPCError({
+      code: "NOT_FOUND",
+      message: "Project not found",
     });
-    return {
-      message: "Project deleted successfully",
-    };
+  }
+
+  try {
+    await ctx.db.project.delete({ where: { id } });
+    return { message: "Project deleted successfully" };
   } catch (error) {
     throw new TRPCError({
       code: "INTERNAL_SERVER_ERROR",
-      message: "Failed to delete project",
+      message: "failed to delete project",
     });
   }
 };
