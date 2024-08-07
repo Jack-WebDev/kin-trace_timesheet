@@ -1,4 +1,3 @@
-
 import { formatDate } from "@/utils";
 import { Bell } from "lucide-react";
 import React from "react";
@@ -6,41 +5,39 @@ import { LinkButton } from ".";
 import { Notification as NotificationType } from "@prisma/client";
 import { serverApi } from "@/client/server";
 
-
-
 export const Notification = async () => {
   const notifications = await serverApi.notification.list();
 
   return (
-    <div className="flex-1 max-h-[500px]  w-full md:max-w-[900px] md:w-2/5 flex flex-col items-start bg-primaryBg p-8 rounded-lg shadow-lg relative">
-      <div className="flex w-full items-center justify-between mb-8">
+    <div className="relative flex  max-h-[500px] w-full flex-1 flex-col items-start rounded-lg bg-primaryBg p-8 shadow-lg md:w-2/5 md:max-w-[900px]">
+      <div className="mb-8 flex w-full items-center justify-between">
         <div className="flex items-center gap-x-2">
           <Bell
             size={40}
-            className="p-2 bg-secondary text-white rounded-full"
+            className="rounded-full bg-secondary p-2 text-white"
           />
-          <h1 className="font-semibold text-textColor text-lg">
+          <h1 className="text-lg font-semibold text-textColor">
             New notifications
           </h1>
         </div>
 
-        <LinkButton url="/dashboard/notifications" />
+        <LinkButton url="/home/notifications" />
       </div>
 
-      <div className="flex items-center w-full border-b border-secondary pb-2 px-2 text-textColor mb-3">
+      <div className="mb-3 flex w-full items-center border-b border-secondary px-2 pb-2 text-textColor">
         <span className="w-1/5 text-sm font-normal text-inherit">Category</span>
         <span className="w-1/5 text-sm font-normal text-inherit">Date</span>
         <span className="w-2/5 text-sm font-normal text-inherit">Message</span>
         <span className="w-1/5 text-sm font-normal text-inherit">Action</span>
       </div>
 
-      <div className="flex flex-col w-full max-h[300px] overflow-y-auto scrollbar-hide gap-2">
+      <div className="max-h[300px] scrollbar-hide flex w-full flex-col gap-2 overflow-y-auto">
         {notifications && notifications.length > 0 ? (
           notifications.map((item: NotificationType) => (
             <NotificationItem key={item.id} notification={item} />
           ))
         ) : (
-          <div className="w-full flex items-center justify-center py-4">
+          <div className="flex w-full items-center justify-center py-4">
             <p className="text-md font-semibold text-textColorExtraLight">
               No notifications
             </p>
@@ -54,11 +51,11 @@ export const Notification = async () => {
 const NotificationItem = (props: NotificationItemProps) => {
   const { notification } = props;
   return (
-    <div className="flex items-center text-textColor gap-4 px-2 py-1 bg-secondaryBg dark:bg-secondaryBg/20 hover:text-black hover:bg-primary/20 hover:dark:bg-[#6759d1]/20 dark:hover:text-white rounded-lg relative z-50">
+    <div className="relative z-50 flex items-center gap-4 rounded-lg bg-secondaryBg px-2 py-1 text-textColor hover:bg-primary/20 hover:text-black dark:bg-secondaryBg/20 hover:dark:bg-[#6759d1]/20 dark:hover:text-white">
       <div
         className={
           notification.status === "New"
-            ? "bg-success -z-10 h-full w-1 absolute top-0 bottom-0 left-0 rounded-tl-lg rounded-bl-lg p-0 "
+            ? "absolute bottom-0 left-0 top-0 -z-10 h-full w-1 rounded-bl-lg rounded-tl-lg bg-success p-0 "
             : ""
         }
       ></div>
@@ -71,7 +68,6 @@ const NotificationItem = (props: NotificationItemProps) => {
       <p className="w-2/5 text-xs font-semibold text-inherit">
         {notification.message.slice(0, 30)}...
       </p>
-
     </div>
   );
 };
@@ -79,5 +75,3 @@ const NotificationItem = (props: NotificationItemProps) => {
 type NotificationItemProps = {
   notification: NotificationType;
 };
-
-

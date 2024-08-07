@@ -23,9 +23,7 @@ import {
   TableHeader,
   TableRow,
 } from "..";
-import { DataTableViewOptions } from "./dataTableViewOptions";
-import { Search } from "lucide-react";
-import { Input } from "..";
+
 import { DataTablePagination } from "./pagination";
 
 interface DataTableProps<TData> {
@@ -39,14 +37,12 @@ interface DataTableProps<TData> {
 export function DataTable<TData>({
   columns,
   data,
-  searchColumn,
-  search,
-  filter,
 }: DataTableProps<TData>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
+
 
   const table = useReactTable({
     data,
@@ -68,35 +64,8 @@ export function DataTable<TData>({
   });
 
   return (
-    <div className="flex max-w-full flex-1 flex-col gap-5 bg-transparent">
-      {filter && (
-        <div className="bg-primaryBg dark:bg-primaryBg/50 flex max-w-full flex-1 flex-col rounded-lg px-8 py-4 shadow-lg">
-          <div className="w-full flex items-start justify-between gap-4 py-4 md:flex-row md:items-center">
-            <h1 className="justify-self-start text-xl font-semibold text-primary">
-              Filter
-            </h1>
-            <div className="flex w-fit items-center gap-5">
-              {search && (
-                <div className="border-borderColor flex h-12 max-w-xs items-center gap-3 rounded-lg border p-2">
-                  <Search size={20} className="text-textColorLight" />
-                  <Input
-                    type="text"
-                    className="placeholder:text-textColorLight h-12 max-w-xs border-none bg-transparent"
-                    placeholder={`Search by ${String(searchColumn)}`}
-                    onChange={(e) =>
-                      table
-                        .getColumn(String(searchColumn))
-                        ?.setFilterValue(e.target.value)
-                    }
-                  />
-                </div>
-              )}
+    <div className="flex max-w-full flex-1 flex-col gap-5 bg-white">
 
-              <DataTableViewOptions table={table} />
-            </div>
-          </div>
-        </div>
-      )}
 
       <div className="bg-primaryBg dark:bg-primaryBg/50 rounded-lg p-4 px-8 shadow-lg">
         <div className="h-fit min-h-0 min-w-0 overflow-x-auto rounded-lg">
@@ -158,5 +127,3 @@ export function DataTable<TData>({
   );
 }
 
-// Usage example
-// <DataTable columns={columns} data={data} searchColumn="name" search filter />

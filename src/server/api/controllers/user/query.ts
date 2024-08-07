@@ -1,81 +1,11 @@
-import { TRPCError } from "@trpc/server";
-import type { Context } from "../../trpc";
-import type { User } from "@prisma/client";
-import { omit } from "lodash";
+import { Context } from "../../trpc";
 
-export const getUsersWithoutPassword = async (list: any[]) => {
-  return list.map((listItem) => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { password, ...others } = listItem;
-    return others;
-  });
+export const getUsers = async (ctx: Context) => {
+  const users = await ctx.db.user.findMany();
+  return users;
 };
 
-export const getAllUsers = async (ctx: Context) => {
-  const users = await ctx.db.user.findMany({
-    orderBy: {
-      createdAt: "desc",
-    },
-  });
-
-  const userList: User[] = await getUsersWithoutPassword(users);
-
-  // const data = await Promise.all(
-  //   userList.map(async (user) => {
-  //     // fetch user address
-  //     const userAddress = await ctx.db.address.findFirst({
-  //       where: { refId: user.id },
-  //     });
-
-  //     const userData = {
-  //       ...user,
-  //       address: userAddress,
-  //     };
-
-  //     return userData;
-  //   }),
-  // );
-
-  return "Messsage";
-};
-
-export const getSingleUser = async (ctx: Context, id: string) => {
-
-  try {
-    const user = await ctx.db.user.findUnique({ 
-      where: { id },
-      include: {
-        notifications: true,
-      }
-     });
-
-    if (!user) {
-      throw new TRPCError({
-        code: "NOT_FOUND",
-        message: "User not found",
-      });
-    }
-
-    const returnUser = omit(user, ["password"]);
-    // fetch user address
-    const userAddress = ""
-
-    if (!userAddress) {
-      return {
-        ...user,
-        address: null,
-      };
-    }
-
-    const data = {
-      ...returnUser,
-      address: userAddress,
-    };
-    return data;
-  } catch (error) {
-    throw new TRPCError({
-      code: "INTERNAL_SERVER_ERROR",
-      message: "Failed to get single user",
-    });
-  }
+export const getUser = async (ctx: Context, id: string) => {
+  const user = await ctx.db.user.findFirst({ where: { id } });
+  return user;
 };

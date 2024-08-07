@@ -82,6 +82,46 @@ const authMiddleware = t.middleware(async ({ ctx, next }) => {
   });
 });
 
+
+
+const adminMiddleware = t.middleware(async ({ ctx, next }) => {
+  const { authToken } = ctx;
+
+  if (!authToken) {
+    throw new TRPCError({
+      code: "FORBIDDEN",
+      message: "Unauthorized",
+    });
+  }
+
+  try {
+    jwt.verify(authToken, config.env.secrets.authSecret);
+
+    const auth = await getAuth(authToken);
+
+
+    if (auth?.role !== "Admin") {
+      throw new TRPCError({
+        code: "FORBIDDEN",
+        message: "Unauthorized",
+      });
+    }
+
+    return next({
+      ctx: {
+        ...ctx,
+        authToken,
+        auth: auth
+      },
+    });
+  } catch (err) {
+    throw new TRPCError({
+      code: "FORBIDDEN",
+      message: "Unauthorized",
+    });
+  }
+});
+
 export const createCallerFactory = t.createCallerFactory;
 
 export const createRouter = t.router;
@@ -89,3 +129,4 @@ export const createRouter = t.router;
 export const publicProcedure = t.procedure;
 
 export const protectedProcedure = t.procedure.use(authMiddleware);
+export const adminProcedure = t.procedure.use(adminMiddleware);
