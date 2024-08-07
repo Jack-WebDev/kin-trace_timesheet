@@ -47,27 +47,27 @@ export const userColumns: ColumnDef<UserType>[] = [
       return <DataTableColumnHeader column={column} title="Email" />;
     },
   },
-  {
-    accessorKey: "department",
-    header: ({ column }) => {
+  // {
+  //   accessorKey: "department",
+  //   header: ({ column }) => {
 
 
 
-      return <DataTableColumnHeader column={column} title="Department" />;
-    },
-    cell: ({ row }) => {
-      const department = row.original.department;
-      return (
-        <div className="flex w-full items-center gap-4">
+  //     return <DataTableColumnHeader column={column} title="Department" />;
+  //   },
+  //   cell: ({ row }) => {
+  //     const department = row.original.department;
+  //     return (
+  //       <div className="flex w-full items-center gap-4">
 
 
-          <p className="text-sm font-semibold ">
-            {department?.name}
-          </p>
-        </div>
-      );
-    },
-  },
+  //         <p className="text-sm font-semibold ">
+  //           {department?.name}
+  //         </p>
+  //       </div>
+  //     );
+  //   },
+  // },
   {
     accessorKey: "position",
     header: ({ column }) => {

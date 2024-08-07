@@ -1,16 +1,7 @@
-import {
-  EmployeeType,
-  Ethnicity,
-  Gender,
-  MaritalStatus,
-  UserRole,
-  UserStatus,
-  UserTitle,
-} from "@prisma/client";
 import { nativeEnum, object, string, z } from "zod";
 
 export const createUserSchema = object({
-  title: nativeEnum(UserTitle).optional(),
+  title: string(),
   name: string({
     required_error: "Name is required",
     invalid_type_error: "Invalid entry",
@@ -44,36 +35,29 @@ export const createUserSchema = object({
     .refine((email) => email.endsWith("@ndt.co.za"), {
       message: "NDT Email must be a valid NDT email",
     }),
-  gender: nativeEnum(Gender).optional(),
+  gender: string(),
   position: string(),
-  employeeType: nativeEnum(EmployeeType).optional(),
-  maritalStatus: nativeEnum(MaritalStatus).optional(),
+  employeeType: string(),
+  maritalStatus: string(),
   address: string(),
   city: string(),
   province: string(),
+  leaveDays: string(),
   postalCode: string(),
-  ethnicity: nativeEnum(Ethnicity).optional(),
-  role: nativeEnum(UserRole),
-  status: nativeEnum(UserStatus).optional(),
-  image: string({
-    invalid_type_error: "Enter a valid image url",
-  })
-    .url()
-    .optional(),
+  ethnicity: string(),
+  role: string(),
+  status: string(),
+
   officeLocation: string(),
   startDate: string(),
-  department: object({
-    connect: object({
-      id: string(),
-    }),
-  }),
+  department: string(),
 });
 
 export const userId = string();
 
 export const updateUserSchema = object({
-  id: string(),
-  title: nativeEnum(UserTitle).optional(),
+  id: string().cuid(),
+  title: string(),
   name: string({
     required_error: "Name is required",
     invalid_type_error: "Invalid entry",
@@ -86,6 +70,7 @@ export const updateUserSchema = object({
     required_error: "Email is required",
     invalid_type_error: "Email must be a string",
   }).email({ message: "Invalid email address" }),
+  password: string().optional(),
   idNumber: string({
     required_error: "ID Number is required",
     invalid_type_error: "ID Number must be a string",
@@ -106,22 +91,19 @@ export const updateUserSchema = object({
     .refine((email) => email.endsWith("@ndt.co.za"), {
       message: "NDT Email must be a valid NDT email",
     }),
-  gender: nativeEnum(Gender).optional(),
+  gender: string(),
   position: string(),
-  employeeType: nativeEnum(EmployeeType).optional(),
-  maritalStatus: nativeEnum(MaritalStatus).optional(),
+  employeeType: string(),
+  maritalStatus: string(),
   address: string(),
   city: string(),
   province: string(),
+  leaveDays: string(),
   postalCode: string(),
-  ethnicity: nativeEnum(Ethnicity).optional(),
-  role: nativeEnum(UserRole),
-  status: nativeEnum(UserStatus).optional(),
-  image: string({
-    invalid_type_error: "Enter a valid image url",
-  })
-    .url()
-    .optional(),
+  ethnicity: string(),
+  role: string(),
+  status: string(),
+
   officeLocation: string(),
   startDate: string(),
   department: object({
@@ -131,34 +113,63 @@ export const updateUserSchema = object({
   }),
 });
 
-export type UserType = {
-  id: string;
+export type createUserType = {
+  title: string;
   email: string;
   name: string;
   surname: string;
-  role: UserRole;
-  status: UserStatus;
-  gender: Gender;
+  role: string;
+  status: string;
+  gender: string;
+  address: string;
+  city: string;
+  leaveDays: string,
+  ethnicity: string;
   position: string;
-  employmentType?: EmployeeType;
-  maritalStatus: MaritalStatus;
+  employmentType?: string;
+  maritalStatus: string;
   postalCode: string;
   province: string;
-  startDate: Date;
+  idNumber: string;
+  dob: string;
+  officeLocation: string;
+  startDate: string;
   ndtEmail: string;
   contactNumber: string;
-  image?: string | null;
-  department: {
-    id: string;
-    name: string;
-  };
-  createdAt: Date;
+  department: string
+}
+
+export type UserType = {
+  id: string;
+  title: string;
+  email: string;
+  name: string;
+  surname: string;
+  role: string;
+  status: string;
+  gender: string;
+  address: string;
+  city: string;
+  leaveDays: string,
+  ethnicity: string;
+  position: string;
+  employmentType?: string;
+  maritalStatus: string;
+  postalCode: string;
+  province: string;
+  idNumber: string;
+  dob: string;
+  officeLocation: string;
+  startDate: string;
+  ndtEmail: string;
+  contactNumber: string;
+  department?: string
 };
 
 export type AuthUserType = {
   id: string;
-  status: UserStatus;
-  role: UserRole;
+  status: string;
+  role: string;
   accessToken: string;
 };
 

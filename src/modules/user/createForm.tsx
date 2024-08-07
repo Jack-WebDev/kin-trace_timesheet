@@ -14,7 +14,7 @@ import {
 } from "@/packages/ui";
 import  { type CreateUserSchemaType, createUserSchema } from "@/schema";
 import { clientApi } from "@/client/react";
-import { userRoles } from "@/enum/constants";
+// import { userRoles } from "@/enum/constants";
 
 export function CreateForm() {
 
@@ -50,7 +50,7 @@ export function CreateForm() {
 
     // createUser.mutate(values);
   }
-  clientApi.user['create'].useMutation({})
+  // clientApi.user['create'].useMutation({})
 
   return (
     <Form {...form}>
@@ -76,12 +76,12 @@ export function CreateForm() {
           />
         </div>
 
-        <FormSelect 
+        {/* <FormSelect 
           label="Role"
           name="role"
-          data={userRoles}
+          // data={userRoles}
           placeholder="Select role"
-        />
+        /> */}
 
         {/* {createUser.isPending ? (
           <Loader />
